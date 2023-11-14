@@ -45,19 +45,19 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
 
         <Switch
 
-            android:paddingStart="16dp"
-            android:paddingEnd="0dp"
+            android:paddingStart="22dp"
+            android:paddingEnd="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
             android:textAlignment="textStart"
             android:textAllCaps="false"
-            style="@style/Theme.PlaylistMaker"
 
             android:text="@string/dark_theme"
             android:textColor="@color/black2"
