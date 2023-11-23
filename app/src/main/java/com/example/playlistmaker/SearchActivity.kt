@@ -16,15 +16,17 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var editText: EditText
     private lateinit var clearIcon: ImageView
+    private lateinit var backButton: Button
+    private var textString: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         editText = findViewById(R.id.search_button2)
         clearIcon = findViewById(R.id.clearIcon)
-        val backButton2 = findViewById<Button>(R.id.back_button2)
+        backButton = findViewById(R.id.back_button2)
         //Кнопочка назад
 
-        backButton2.setOnClickListener {
+        backButton.setOnClickListener {
             finish()
         }
 
@@ -41,23 +43,14 @@ class SearchActivity : AppCompatActivity() {
                 clearButtonVisibility(s?.isNotEmpty() ?: false)
             }
             override fun afterTextChanged(s: Editable?) {}
-
         })
-
     }
-
     private fun clearButtonVisibility(isVisible: Boolean) {
         clearIcon.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
-
-
     // Хранение данных
 
-    companion object {
-        const val SEARCH = "TEXT"
-    }
-    private var textString: String = ""
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(SEARCH, textString)
@@ -67,6 +60,7 @@ class SearchActivity : AppCompatActivity() {
         textString = savedInstanceState.getString(SEARCH).toString()
         editText.setText(textString)
     }
-
-
+   companion object {
+      private  const val SEARCH = "TEXT"
+    }
 }

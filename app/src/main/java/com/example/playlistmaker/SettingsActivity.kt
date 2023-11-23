@@ -69,19 +69,9 @@ class SettingsActivity: AppCompatActivity() {
                 val openIntent = Intent(Intent.ACTION_VIEW)
                 openIntent.data = Uri.parse(textAgree)
                 startActivity(openIntent)
-
-
-
         }
-
-
-
     }
-    
     private fun recreateActivity() {
         recreate()
     }
-
-
-
 }
