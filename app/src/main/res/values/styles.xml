@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="BigButtonMain" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+    <item name="textAllCaps">false</item>
+    <item name="android:layout_weight">@dimen/layout_weight_big_button</item>
+    <item name="backgroundTint">@color/white</item>
+    <item name="android:textColor">@color/black2</item>
+    <item name="android:textSize">@dimen/text_size_big_button</item>
+    <item name="cornerRadius">@dimen/corner_radius_big_button</item>
+    <item name="iconGravity">textStart</item>
+    <item name="iconPadding">@dimen/icon_padding_big_button</item>
+    <item name="iconTint">@color/black2</item>
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:fontFamily">@font/ys_display_medium</item>
+</style>
+    <style name="ButtonSettings" parent="Theme.PlaylistMaker">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">?attr/backgroundColor</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textSize">@dimen/text_size_settings_button</item>
+        <item name="iconGravity">end</item>
+        <item name="iconTint">?attr/iconTint</item>
+        <item name="android:paddingTop">@dimen/padding_top_settings_button</item>
+        <item name="android:paddingBottom">@dimen/padding_bottom_settings_button</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="trackTint">?attr/trackTint</item>
+        <item name="thumbTint">?attr/thumbTint</item>
+    </style>
+    <style name="SettingsLinerLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+</resources>
