@@ -13,7 +13,6 @@ import androidx.appcompat.widget.SwitchCompat
 
 class SettingsActivity: AppCompatActivity() {
 
-
     @SuppressLint("StringFormatInvalid", "SuspiciousIndentation", "MissingInflatedId")
     private lateinit var switchDarkMode: SwitchCompat
     @SuppressLint("StringFormatInvalid", "SuspiciousIndentation")
@@ -41,7 +40,6 @@ class SettingsActivity: AppCompatActivity() {
                         recreateActivity()
                     }
                 }
-
             }
         }
 
