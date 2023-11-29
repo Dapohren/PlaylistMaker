@@ -1,9 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/backgroundColor"
     tools:context=".SearchActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/backgroundColor"
+        app:icon="@drawable/left"
+        app:iconTint="?attr/colorOnPrimary"
+        android:layout_marginTop="2dp"
+        app:iconGravity="textStart"
+        android:id="@+id/back_button2"
+        android:src="@drawable/left"
+        android:contentDescription="@string/search"
+        android:foreground="?attr/selectableItemBackground"
+
+        android:textColor="@color/black2"
+
+        />
+        <TextView
+            android:fontFamily="@font/ys_display_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="@dimen/text_size_big_button"
+            android:layout_marginTop="4dp"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+    <EditText
+        android:id="@+id/search_button2"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:paddingStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp"
+        android:lines="1"
+        android:maxLength="30"
+        android:inputType="text"
+        android:hint="@string/search"
+        android:drawableStart="@drawable/light_mode"
+        android:textColorHint="?attr/drawableTint"
+        android:drawableTint="?attr/drawableTint"
+        android:drawablePadding="10dp"
+        android:background="@drawable/search_background"
+        android:textSize="16sp"
+        android:fontFamily="@font/ys_display_regular"
+        tools:ignore="TouchTargetSizeCheck,UseSwitchCompatOrMaterialXml"
+        android:textColor="@color/black"
+        />
+        <ImageView
+            android:id="@+id/clearIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="25dp"
+            android:src="@drawable/clear_text"
+            android:visibility="gone"
+            />
+
+    </FrameLayout>
+</LinearLayout>

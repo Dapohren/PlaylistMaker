@@ -6,7 +6,7 @@
     android:orientation="vertical"
 
 
-    android:background="@color/blue">
+    android:background="?attr/colorSecondaryVariant">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -37,67 +37,28 @@
         <Button
             android:foreground="?attr/selectableItemBackground"
             android:id="@+id/search_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-
-            android:layout_weight="@dimen/layout_weight_big_button"
             android:theme="@style/Theme.MaterialComponents"
-
-
-            android:backgroundTint="@color/white"
+            style="@style/BigButtonMain"
             android:text="@string/search"
-            android:textColor="@color/black2"
-            android:textSize="@dimen/text_size_big_button"
-            app:cornerRadius='@dimen/corner_radius_big_button'
             android:layout_marginTop="20dp"
-
             app:icon="@drawable/light_mode"
-            app:iconGravity="textStart"
-            app:iconPadding="@dimen/icon_padding_big_button"
-            app:iconTint="@color/black2"
-
 
             />
         <Button
+
             android:foreground="?attr/selectableItemBackground"
+            style="@style/BigButtonMain"
             android:id="@+id/media_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:layout_weight="@dimen/layout_weight_big_button"
-
-            android:backgroundTint="@color/white"
             android:text="@string/media"
-            android:textColor="@color/black2"
-            android:textSize="@dimen/text_size_big_button"
-            app:cornerRadius='@dimen/corner_radius_big_button'
-
-
             app:icon="@drawable/library"
-            app:iconGravity="textStart"
-            app:iconPadding="@dimen/icon_padding_big_button"
-            app:iconTint="@color/black2"
 
             />
         <Button
             android:foreground="?attr/selectableItemBackground"
             android:id="@+id/settings_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:layout_weight="@dimen/layout_weight_big_button"
-
-            android:backgroundTint="@color/white"
+            style="@style/BigButtonMain"
             android:text="@string/settings"
-            android:textColor="@color/black2"
-            android:textSize="@dimen/text_size_big_button"
-            app:cornerRadius='@dimen/corner_radius_big_button'
             app:icon="@drawable/settings"
-
-            app:iconGravity="textStart"
-            app:iconPadding="@dimen/icon_padding_big_button"
-            app:iconTint="@color/black2"
 
             />
 

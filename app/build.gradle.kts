@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId = "com.example.playlistmaker"
         minSdk = 29
-        targetSdk = 32
+        targetSdk = 31
         versionCode = 1
         versionName = "1.0"
 
