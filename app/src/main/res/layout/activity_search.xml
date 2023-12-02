@@ -15,7 +15,8 @@
         >
 
     <Button
-        android:layout_width="wrap_content"
+        android:padding="12dp"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:backgroundTint="?attr/backgroundColor"
         app:icon="@drawable/left"
