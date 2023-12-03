@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/song_image"
         android:src="@drawable/placeholder"
-        app:iconBackGround=""
         app:iconTint="?attr/iconTint"
         />
     <LinearLayout
