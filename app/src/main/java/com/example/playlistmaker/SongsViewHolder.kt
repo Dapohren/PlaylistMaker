@@ -19,7 +19,7 @@ class SongsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         Glide.with(itemView)
             .load(item.artworkUrl100)
             .centerInside()
-            .placeholder(R.drawable.plug_iocqiev5zp1e)
+            .placeholder(R.drawable.placeholder)
             .transform(RoundedCorners(5))
             .into(songIcon)
 
