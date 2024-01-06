@@ -4,7 +4,6 @@
     <string name="search">Поиск</string>
     <string name="media">Медиатека</string>
     <string name="settings">Настройки</string>
-
     <string name="dark_theme">Темная тема</string>
     <string name="share_app">Поделиться приложением</string>
     <string name="help_me">Написать в поддержку</string>
@@ -16,4 +15,10 @@
     <string name="supportTitle">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="supportText">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="sharing">Посмотри, какой интересный курс - https://practicum.yandex.ru/android-developer/</string>
+    <string name="name_song">Название песни</string>
+    <string name="artist">Исполнитель</string>
+    <string name="update">Обновить</string>
+    <string name="error">Enter How Much Cookies You Want</string>
+    <string name="nothing_found">Ничего не нашлось</string>
+    <string name="no_conection">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
 </resources>

@@ -5,7 +5,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorSecondaryVariant">@color/blue</item>
         <item name="backgroundColor">@color/white</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/black2</item>
         <item name="iconTint">@color/grey</item>
         <item name ="thumbTint">@color/white</item>
         <item name="trackTint">@color/grey</item>
