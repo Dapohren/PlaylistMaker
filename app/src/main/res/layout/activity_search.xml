@@ -15,7 +15,8 @@
         >
 
     <Button
-        android:layout_width="wrap_content"
+        android:padding="12dp"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:backgroundTint="?attr/backgroundColor"
         app:icon="@drawable/left"
@@ -80,4 +81,20 @@
             />
 
     </FrameLayout>
+
+    <LinearLayout
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/our_recycle"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            tools:itemCount="11"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
 </LinearLayout>
