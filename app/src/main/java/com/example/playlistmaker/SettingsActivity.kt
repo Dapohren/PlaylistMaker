@@ -25,8 +25,10 @@ class SettingsActivity: AppCompatActivity() {
             finish()
         }
         switchDarkMode = findViewById(R.id.switch_off)
+        switchDarkMode.isChecked = (application as App).darkTheme
         switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
             (applicationContext as App).switchTheme(isChecked)
+            (application as App).saveState()
         }
 
         val shareApp: Button = findViewById(R.id.share)
