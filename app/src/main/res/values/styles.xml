@@ -35,4 +35,23 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
     </style>
+    <style name="Text11">
+        <item name="android:textSize">@dimen/text_search_size_big</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+    </style>
+    <style name="NothingFound">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginTop">@dimen/top_mistake</item>
+        <item name="android:src">@drawable/nothing_f_light</item>
+    </style>
+    <style name="NoInetConnection">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginTop">@dimen/top_mistake</item>
+        <item name="android:src">@drawable/no_inet_conect_light</item>
+    </style>
 </resources>

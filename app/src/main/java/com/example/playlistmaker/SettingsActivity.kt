@@ -13,7 +13,6 @@ import androidx.appcompat.widget.SwitchCompat
 
 class SettingsActivity: AppCompatActivity() {
 
-
     @SuppressLint("StringFormatInvalid", "SuspiciousIndentation", "MissingInflatedId")
     private lateinit var switchDarkMode: SwitchCompat
     @SuppressLint("StringFormatInvalid", "SuspiciousIndentation")
@@ -41,7 +40,6 @@ class SettingsActivity: AppCompatActivity() {
                         recreateActivity()
                     }
                 }
-
             }
         }
 
@@ -49,7 +47,7 @@ class SettingsActivity: AppCompatActivity() {
         shareApp.setOnClickListener {
             val appId = "com.Practicum.PlaylistMaker"
             val shareIntent = Intent(Intent.ACTION_SEND)
-            intent.type = "text/plain"
+            shareIntent.type = "text/plain"
                 shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.sharing, appId))
             startActivity(Intent.createChooser(shareIntent, getString(R.string.share_app_title)))
         }
@@ -69,19 +67,9 @@ class SettingsActivity: AppCompatActivity() {
                 val openIntent = Intent(Intent.ACTION_VIEW)
                 openIntent.data = Uri.parse(textAgree)
                 startActivity(openIntent)
-
-
-
         }
-
-
-
     }
-    
     private fun recreateActivity() {
         recreate()
     }
-
-
-
 }
