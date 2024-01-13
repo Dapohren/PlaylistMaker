@@ -26,21 +26,7 @@ class SettingsActivity: AppCompatActivity() {
         }
         switchDarkMode = findViewById(R.id.switch_off)
         switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
-            if (!isChecked) {
-                when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-                    Configuration.UI_MODE_NIGHT_YES -> {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                        recreateActivity()
-                    }
-                }
-            } else {
-                when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-                    Configuration.UI_MODE_NIGHT_NO ->  {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                        recreateActivity()
-                    }
-                }
-            }
+            (applicationContext as App).switchTheme(isChecked)
         }
 
         val shareApp: Button = findViewById(R.id.share)

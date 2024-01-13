@@ -20,5 +20,7 @@
     <string name="update">Обновить</string>
     <string name="error">Enter How Much Cookies You Want</string>
     <string name="nothing_found">Ничего не нашлось</string>
+    <string name="you_search">Вы искали</string>
+    <string name="clear_history">Очистить историю</string>
     <string name="no_conection">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
 </resources>

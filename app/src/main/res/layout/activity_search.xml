@@ -83,6 +83,43 @@
             />
 
     </FrameLayout>
+    <LinearLayout
+        android:id="@+id/layout_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+        <TextView
+            android:layout_marginTop="24dp"
+            android:id="@+id/text_you_search"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/you_search"
+            android:textAlignment="center"
+            android:fontFamily="@font/ys_display_medium"
+            android:textSize="@dimen/padding_top_settings_button"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycle_history"
+            tools:itemCount="11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/clean_history"
+            android:layout_marginTop="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="?attr/colorOnPrimary"
+            android:text="@string/clear_history"
+            android:textColor="?attr/backgroundColor"
+            android:fontFamily="@font/ys_display_medium"
+            android:textSize="@dimen/text_size_update"
+            android:padding="@dimen/icon_padding_big_button"
+            />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_marginTop="16dp"
@@ -138,9 +175,6 @@
             android:textSize="@dimen/text_size_update"
             android:padding="@dimen/icon_padding_big_button"
             android:visibility="gone"
-
-
-
             />
 
 
