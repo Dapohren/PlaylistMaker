@@ -29,7 +29,6 @@
             android:foreground="?attr/selectableItemBackground"
             android:fontFamily="@font/ys_display_medium"
 
-
             />
 
         <TextView
@@ -46,12 +45,9 @@
         style="@style/SettingsLinerLayout"
         >
 
-
         <androidx.appcompat.widget.SwitchCompat
-
             style="@style/ButtonSettings"
             android:paddingStart="22dp"
-            app:icon='@drawable/control'
             android:paddingEnd="8dp"
             android:text="@string/dark_theme"
             app:iconGravity="end"
