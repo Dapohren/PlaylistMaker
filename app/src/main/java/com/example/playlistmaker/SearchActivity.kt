@@ -1,6 +1,7 @@
 package com.example.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -119,6 +120,18 @@ class SearchActivity : AppCompatActivity() {
         songAdapter.onTrackClickListener(object: TrackOnClickListener{
             override fun onClicked(track: Int) {
                 showSearchHistory(track)
+                val trackChosen = songAdapter.track[track]
+                openChosenTrackActivity(trackChosen)
+            }
+        })
+        songHistoryAdapter.onTrackClickListener(object: TrackOnClickListener{
+            override fun onClicked(track: Int) {
+                val trackChosen = songAdapter.track[track]
+                openChosenTrackActivity(trackChosen)
+                songHistoryAdapter.track.add(0, trackChosen)
+                songHistoryAdapter.track.removeAt(track + 1)
+                songHistoryAdapter.notifyDataSetChanged()
+                addToList(sharedPreferences, songHistoryAdapter.track)
             }
         })
 
@@ -189,6 +202,11 @@ class SearchActivity : AppCompatActivity() {
             }
 
         }
+    }
+    private fun openChosenTrackActivity(addedSong: DataSongs) {
+        val audioPlayer = Intent(this, AudioPlayerActivity::class.java)
+        audioPlayer.putExtra("chosen_track", Gson().toJson(addedSong))
+        startActivity(audioPlayer)
     }
 
 

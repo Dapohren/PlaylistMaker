@@ -9,6 +9,7 @@
         <item name="trackTint">@color/light_blue</item>
         <item name="drawableTint">@color/black2</item>
         <item name="background">@color/white</item>
+        <item name="color">@color/light_grey</item>
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>

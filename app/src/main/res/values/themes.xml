@@ -11,6 +11,7 @@
         <item name="trackTint">@color/grey</item>
         <item name="drawableTint">@color/grey</item>
         <item name="background">@color/light_grey</item>
+        <item name="color">@color/black</item>
     </style>
 
     <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker" />
