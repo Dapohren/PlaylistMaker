@@ -30,16 +30,18 @@ import java.lang.reflect.Type
 // Константы
 const val SONGS_PREFERENCES = "songs_preferences"
 const val SONGS_LIST_KEY = "songs_list_key"
+const val CHOSEN_TRACK = "chosen_track"
 
 class SearchActivity : AppCompatActivity() {
 
-
     //Кнопки истории
+
     private lateinit var youSearch: TextView
     private lateinit var searchHistory: RecyclerView
     private lateinit var clearHistory: Button
     private lateinit var layoutHistory: LinearLayout
     // кнопки экрана и экрана ошибки
+
     private lateinit var placeholderMessage: TextView
     private lateinit var editText: EditText
     private lateinit var clearIcon: ImageView
@@ -54,6 +56,7 @@ class SearchActivity : AppCompatActivity() {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     // инициализация адаптер
+
     private val imdbService = retrofit.create(iTunesApi::class.java)
     private val songAdapter = SongsAdapter()
     private val songHistoryAdapter = SongsAdapter()
@@ -128,6 +131,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onClicked(track: Int) {
                 val trackChosen = songAdapter.track[track]
                 openChosenTrackActivity(trackChosen)
+                songHistoryAdapter.track = readSharedPref(sharedPreferences)
                 songHistoryAdapter.track.add(0, trackChosen)
                 songHistoryAdapter.track.removeAt(track + 1)
                 songHistoryAdapter.notifyDataSetChanged()
@@ -205,7 +209,7 @@ class SearchActivity : AppCompatActivity() {
     }
     private fun openChosenTrackActivity(addedSong: DataSongs) {
         val audioPlayer = Intent(this, AudioPlayerActivity::class.java)
-        audioPlayer.putExtra("chosen_track", Gson().toJson(addedSong))
+        audioPlayer.putExtra(CHOSEN_TRACK, Gson().toJson(addedSong))
         startActivity(audioPlayer)
     }
 
