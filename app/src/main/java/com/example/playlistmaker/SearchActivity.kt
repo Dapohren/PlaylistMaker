@@ -129,13 +129,9 @@ class SearchActivity : AppCompatActivity() {
         })
         songHistoryAdapter.onTrackClickListener(object: TrackOnClickListener{
             override fun onClicked(track: Int) {
-                val trackChosen = songAdapter.track[track]
+                val trackChosen = songHistoryAdapter.track[track]
                 openChosenTrackActivity(trackChosen)
                 songHistoryAdapter.track = readSharedPref(sharedPreferences)
-                songHistoryAdapter.track.add(0, trackChosen)
-                songHistoryAdapter.track.removeAt(track + 1)
-                songHistoryAdapter.notifyDataSetChanged()
-                addToList(sharedPreferences, songHistoryAdapter.track)
             }
         })
 
@@ -261,7 +257,8 @@ class SearchActivity : AppCompatActivity() {
     }
     private fun readSharedPref(sharedPreferences: SharedPreferences?): ArrayList<DataSongs> {
         val songsSh = sharedPreferences?.getString(SONGS_LIST_KEY, null) ?: return ArrayList()
-        return Gson().fromJson(songsSh, object : TypeToken<ArrayList<DataSongs>>() {}.type)
+        return Gson().fromJson(songsSh, object : TypeToken<ArrayList<DataSongs>>() {}
+            .type)
     }
     private fun addToList(sharedPreferences: SharedPreferences, songList: ArrayList<DataSongs>) {
         sharedPreferences.edit()

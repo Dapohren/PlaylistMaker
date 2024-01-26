@@ -44,7 +44,7 @@ class AudioPlayerActivity : AppCompatActivity() {
             finish()
         }
         if(extras != null) {
-            val chosenTrackJSON = intent.extras?.getString("chosen_track")
+            val chosenTrackJSON = intent.extras?.getString(CHOSEN_TRACK)
             chosenTrack = Gson().fromJson(chosenTrackJSON, DataSongs::class.java)
         }
 
