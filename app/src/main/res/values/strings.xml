@@ -18,9 +18,15 @@
     <string name="name_song">Название песни</string>
     <string name="artist">Исполнитель</string>
     <string name="update">Обновить</string>
+    <string name="duration">Длительность</string>
+    <string name="album">Альбом</string>
+    <string name="year">Год</string>
+    <string name="genre">Жанр</string>
+    <string name="country">Страна</string>
     <string name="error">Enter How Much Cookies You Want</string>
     <string name="nothing_found">Ничего не нашлось</string>
     <string name="you_search">Вы искали</string>
+    <string name="time">5:33</string>
     <string name="clear_history">Очистить историю</string>
     <string name="no_conection">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
 </resources>

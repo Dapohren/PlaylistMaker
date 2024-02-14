@@ -54,4 +54,14 @@
         <item name="android:layout_marginTop">@dimen/top_mistake</item>
         <item name="android:src">@drawable/no_inet_conect_light</item>
     </style>
+    <style name="PlayerInfo">
+        <item name="android:textColor">@color/grey</item>
+
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/text_size_player</item>
+    </style>
+    <style name="PlayerInfoDit">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/text_size_player</item>
+    </style>
 </resources>

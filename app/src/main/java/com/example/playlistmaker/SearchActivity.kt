@@ -1,6 +1,7 @@
 package com.example.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -29,16 +30,18 @@ import java.lang.reflect.Type
 // Константы
 const val SONGS_PREFERENCES = "songs_preferences"
 const val SONGS_LIST_KEY = "songs_list_key"
+const val CHOSEN_TRACK = "chosen_track"
 
 class SearchActivity : AppCompatActivity() {
 
-
     //Кнопки истории
+
     private lateinit var youSearch: TextView
     private lateinit var searchHistory: RecyclerView
     private lateinit var clearHistory: Button
     private lateinit var layoutHistory: LinearLayout
     // кнопки экрана и экрана ошибки
+
     private lateinit var placeholderMessage: TextView
     private lateinit var editText: EditText
     private lateinit var clearIcon: ImageView
@@ -53,6 +56,7 @@ class SearchActivity : AppCompatActivity() {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     // инициализация адаптер
+
     private val imdbService = retrofit.create(iTunesApi::class.java)
     private val songAdapter = SongsAdapter()
     private val songHistoryAdapter = SongsAdapter()
@@ -119,6 +123,15 @@ class SearchActivity : AppCompatActivity() {
         songAdapter.onTrackClickListener(object: TrackOnClickListener{
             override fun onClicked(track: Int) {
                 showSearchHistory(track)
+                val trackChosen = songAdapter.track[track]
+                openChosenTrackActivity(trackChosen)
+            }
+        })
+        songHistoryAdapter.onTrackClickListener(object: TrackOnClickListener{
+            override fun onClicked(track: Int) {
+                val trackChosen = songHistoryAdapter.track[track]
+                openChosenTrackActivity(trackChosen)
+                songHistoryAdapter.track = readSharedPref(sharedPreferences)
             }
         })
 
@@ -190,6 +203,11 @@ class SearchActivity : AppCompatActivity() {
 
         }
     }
+    private fun openChosenTrackActivity(addedSong: DataSongs) {
+        val audioPlayer = Intent(this, AudioPlayerActivity::class.java)
+        audioPlayer.putExtra(CHOSEN_TRACK, Gson().toJson(addedSong))
+        startActivity(audioPlayer)
+    }
 
 
     // поиск трека
@@ -239,7 +257,8 @@ class SearchActivity : AppCompatActivity() {
     }
     private fun readSharedPref(sharedPreferences: SharedPreferences?): ArrayList<DataSongs> {
         val songsSh = sharedPreferences?.getString(SONGS_LIST_KEY, null) ?: return ArrayList()
-        return Gson().fromJson(songsSh, object : TypeToken<ArrayList<DataSongs>>() {}.type)
+        return Gson().fromJson(songsSh, object : TypeToken<ArrayList<DataSongs>>() {}
+            .type)
     }
     private fun addToList(sharedPreferences: SharedPreferences, songList: ArrayList<DataSongs>) {
         sharedPreferences.edit()
