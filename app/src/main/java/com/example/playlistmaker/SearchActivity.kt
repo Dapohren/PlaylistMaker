@@ -243,7 +243,7 @@ class SearchActivity : AppCompatActivity() {
         if(editText.text.isNotEmpty()) {
             progressBar.visibility = View.VISIBLE
             showMessage("", "")
-            showPlaceHolder(getString(R.string.no_conection))
+            showPlaceHolder(getString(R.string.error))
             imdbService.search(editText.text.toString()).enqueue(object : Callback<TrackResponse>{
                 override fun onResponse(
                     call: Call<TrackResponse>,
