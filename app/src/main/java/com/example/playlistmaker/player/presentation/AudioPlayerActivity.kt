@@ -1,18 +1,18 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.player.presentation
 
-import android.content.Context
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.playlistmaker.R
+import com.example.playlistmaker.search.presentation.CHOSEN_TRACK
+import com.example.playlistmaker.search.domain.models.DataSongs
 import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.Locale

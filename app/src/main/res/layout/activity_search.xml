@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="?attr/backgroundColor"
-    tools:context=".SearchActivity">
+    tools:context=".search.presentation.SearchActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
