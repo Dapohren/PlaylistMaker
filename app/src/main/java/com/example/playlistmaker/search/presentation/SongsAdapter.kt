@@ -1,8 +1,10 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.search.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.search.domain.models.DataSongs
+import com.example.playlistmaker.R
 
 class SongsAdapter() : RecyclerView.Adapter<SongsViewHolder>() {
     var track = ArrayList<DataSongs>()
