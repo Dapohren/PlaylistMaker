@@ -8,8 +8,12 @@ import com.example.playlistmaker.R
 
 class SongsAdapter() : RecyclerView.Adapter<SongsViewHolder>() {
     var track = ArrayList<DataSongs>()
-    private var trackListener : TrackOnClickListener? = null
-    fun onTrackClickListener(listener: TrackOnClickListener) {
+    private var trackListener : onTrackClickListener? = null
+    interface onTrackClickListener {
+        fun onClicked(position: Int)
+    }
+
+    fun setOnTrackClickListener(listener: onTrackClickListener){
         trackListener = listener
     }
 
