@@ -2,7 +2,6 @@ package com.example.playlistmaker.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.media.MediaPlayer
 import com.example.playlistmaker.player.data.AudioPlayerRepositoryImpl
 import com.example.playlistmaker.player.domain.AudioPlayerInteractor
 import com.example.playlistmaker.player.domain.Impl.AudioPlayerInteractorImpl
@@ -13,7 +12,7 @@ import com.example.playlistmaker.search.data.network.TrackRepositoryImpl
 import com.example.playlistmaker.search.domain.api.TrackInteractor
 import com.example.playlistmaker.search.domain.api.TrackRepository
 import com.example.playlistmaker.search.domain.impl.TrackInteractorImpl
-import com.example.playlistmaker.settings.data.InternetAccess
+import com.example.playlistmaker.settings.domain.InternetAccess
 import com.example.playlistmaker.settings.data.Impl.InternetAccessImpl
 import com.example.playlistmaker.settings.data.Impl.SettingsRepositoryImpl
 import com.example.playlistmaker.settings.domain.Impl.SharingInteractorImpl

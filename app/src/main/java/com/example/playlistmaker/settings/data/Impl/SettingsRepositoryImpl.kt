@@ -3,6 +3,7 @@ package com.example.playlistmaker.settings.data.Impl
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmaker.settings.domain.api.SettingsRepository
+import com.example.playlistmaker.settings.domain.model.ThemeSettings
 
 class SettingsRepositoryImpl(context: Context) : SettingsRepository {
 
@@ -40,11 +41,6 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepository {
         fun getThemeFromInt(type: Int) = map[type]
     }
 
-    enum class ThemeSettings(val darkTheme: Int) {
-        LIGHT(1),
-        DARK(2),
-        SYSTEM_DEFAULT(-1)
-    }
 
 
 }

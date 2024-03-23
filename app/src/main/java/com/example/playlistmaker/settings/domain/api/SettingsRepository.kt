@@ -1,8 +1,8 @@
 package com.example.playlistmaker.settings.domain.api
 
-import com.example.playlistmaker.settings.data.Impl.SettingsRepositoryImpl
+import com.example.playlistmaker.settings.domain.model.ThemeSettings
 
 interface SettingsRepository {
-    fun loadIsDarkTheme(): SettingsRepositoryImpl.ThemeSettings
-    fun saveIsDarkTheme(settings: SettingsRepositoryImpl.ThemeSettings)
+    fun loadIsDarkTheme(): ThemeSettings
+    fun saveIsDarkTheme(settings: ThemeSettings)
 }

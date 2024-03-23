@@ -102,14 +102,13 @@ class SearchActivity : AppCompatActivity() {
                         searchHistory.visibility = View.VISIBLE
                         layoutHistory.visibility = View.VISIBLE
                         hideNoInternetNothingFoundViews()
+                        binding.cleanHistory.visibility = View.VISIBLE
                     } else {
-                        layoutHistory.visibility = View.GONE
                         searchHistory.visibility = View.GONE
-
+                        binding.cleanHistory.visibility = View.GONE
                     }
                 }
                 SearchStates.ClearHistory -> clearSearchHistory()
-                //else -> {}
             }
 
         }
@@ -127,6 +126,7 @@ class SearchActivity : AppCompatActivity() {
 
         binding.cleanHistory.setOnClickListener {
             viewModel.onClearHistoryClicked()
+            layoutHistory.visibility = View.GONE
         }
 
         val textWatch = object : TextWatcher {

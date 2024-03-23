@@ -1,9 +1,9 @@
 package com.example.playlistmaker.search.domain.api
 
 import android.content.SharedPreferences
-import com.example.playlistmaker.search.data.dto.TrackResponse
+
 import com.example.playlistmaker.search.domain.models.DataSongs
-import java.util.function.Consumer
+
 
 interface TrackInteractor {
     public val sharedPreferences: SharedPreferences

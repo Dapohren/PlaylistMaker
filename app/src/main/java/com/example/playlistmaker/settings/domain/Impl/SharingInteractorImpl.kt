@@ -1,8 +1,9 @@
 package com.example.playlistmaker.settings.domain.Impl
 
-import com.example.playlistmaker.settings.domain.model.EmailData
-import com.example.playlistmaker.settings.data.InternetAccess
+
+import com.example.playlistmaker.settings.domain.InternetAccess
 import com.example.playlistmaker.settings.domain.SharingInteractor
+import com.example.playlistmaker.settings.domain.model.EmailData
 
 class SharingInteractorImpl(private val internetAccess: InternetAccess) : SharingInteractor {
     override fun openSupport(email: String, subject: String, text: String) {

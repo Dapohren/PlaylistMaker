@@ -3,7 +3,7 @@ package com.example.playlistmaker.settings.data.Impl
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.example.playlistmaker.settings.data.InternetAccess
+import com.example.playlistmaker.settings.domain.InternetAccess
 import com.example.playlistmaker.settings.domain.model.EmailData
 
 class InternetAccessImpl(private val context: Context) : InternetAccess {

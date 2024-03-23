@@ -2,11 +2,8 @@ package com.example.playlistmaker.settings.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.playlistmaker.settings.data.Impl.SettingsRepositoryImpl
+
+import com.example.playlistmaker.settings.domain.model.ThemeSettings
 import com.example.playlistmaker.util.Creator
 
 class SettingsViewModel(application: Application
@@ -30,9 +27,9 @@ class SettingsViewModel(application: Application
 
     fun updateThemeSettings(checked: Boolean) {
         if (checked) {
-            settingsInteractor.saveIsDarkTheme(SettingsRepositoryImpl.ThemeSettings.DARK)
+            settingsInteractor.saveIsDarkTheme(ThemeSettings.DARK)
         } else {
-            settingsInteractor.saveIsDarkTheme(SettingsRepositoryImpl.ThemeSettings.LIGHT)
+            settingsInteractor.saveIsDarkTheme(ThemeSettings.LIGHT)
         }
     }
 
