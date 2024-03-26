@@ -9,23 +9,26 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySettingsBinding
 import com.example.playlistmaker.settings.presentation.SettingsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SettingsActivity: AppCompatActivity() {
     private lateinit var binding: ActivitySettingsBinding
-    private lateinit var viewModel: SettingsViewModel
     private lateinit var switchDarkMode: SwitchCompat
     private lateinit var shareApp: Button
     private lateinit var supportButton: Button
     private lateinit var agreeButton: Button
     private lateinit var backButton: Button
+    private val viewModel: SettingsViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+       // setContentView(R.layout.activity_settings)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        viewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
+
+       // viewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
         shareApp = binding.share
         supportButton = binding.help
         agreeButton = binding.agree
