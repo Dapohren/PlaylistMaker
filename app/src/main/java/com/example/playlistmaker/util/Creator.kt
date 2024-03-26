@@ -24,20 +24,23 @@ import com.example.playlistmaker.settings.domain.SharingInteractor
 object Creator {
 
     //Settings
+    /*
     fun provideSharingInteractor(context: Context): SharingInteractor {
         return SharingInteractorImpl(internetAccess = provideInternetAccess(context = context))
     }
     fun provideSettingsInteractor(context: Context) : SettingsInteractor {
         return SettingsInteractorImpl(settingsRepository = provideSettingsRepository(context = context))
     }
-
+        //
     private fun provideSettingsRepository(context: Context) : SettingsRepository {
         return SettingsRepositoryImpl(context = context)
     }
-
+        //
     private fun provideInternetAccess(context: Context) : InternetAccess {
         return InternetAccessImpl(context = context)
     }
+
+     */
 
     //TrackSearch
 
