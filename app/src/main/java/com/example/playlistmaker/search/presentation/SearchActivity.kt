@@ -10,114 +10,123 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
+
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.search.domain.models.DataSongs
 import com.example.playlistmaker.R
-import com.example.playlistmaker.search.data.dto.TrackResponse
-import com.example.playlistmaker.search.data.network.iTunesApi
-import com.example.playlistmaker.player.presentation.AudioPlayerActivity
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-// Константы
+import com.example.playlistmaker.databinding.ActivitySearchBinding
+import com.example.playlistmaker.player.ui.AudioPlayerActivity
+import com.example.playlistmaker.util.Creator
+import com.google.gson.Gson
+
+
 const val SONGS_PREFERENCES = "songs_preferences"
-const val SONGS_LIST_KEY = "songs_list_key"
-const val CHOSEN_TRACK = "chosen_track"
+
+
+
 private const val CLICK_DEBOUNCE_DELAY = 1000L
 private const val SEARCH_DEBOUNCE_DELAY = 2000L
+const val CHOSEN_TRACK = "chosen_track"
+const val SONGS_LIST_KEY = "songs_list_key"
 
 class SearchActivity : AppCompatActivity() {
+    private val searchRunnable = Runnable { loadTracks() }
+    private lateinit var editText: EditText
+    private lateinit var binding: ActivitySearchBinding
+    private lateinit var viewModel: SearchActivityViewModel
+    //private val searchRunnable = Runnable { search() }
     private lateinit var recycleView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
-    private val searchRunnable = Runnable { search() }
     //Кнопки истории
 
-    private lateinit var youSearch: TextView
+   // private lateinit var youSearch: TextView
     private lateinit var searchHistory: RecyclerView
-    private lateinit var clearHistory: Button
     private lateinit var layoutHistory: LinearLayout
     // кнопки экрана и экрана ошибки
 
-    private lateinit var placeholderMessage: TextView
-    private lateinit var editText: EditText
-    private lateinit var clearIcon: ImageView
-    private lateinit var backButton: Button
     private var textString: String = ""
-    private lateinit var iconNothingFound: ImageView
-    private lateinit var iconNoInternet: ImageView
-    private lateinit var buttonRefresh: Button
-    private val baseURL = "https://itunes.apple.com"
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(baseURL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+
     // инициализация адаптер
 
-    private val imdbService = retrofit.create(iTunesApi::class.java)
     private val songAdapter = SongsAdapter()
     private val songHistoryAdapter = SongsAdapter()
     private lateinit var sharedPreferences : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+        binding = ActivitySearchBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         editText = findViewById(R.id.search_button2)
-        clearIcon = findViewById(R.id.clearIcon)
-        backButton = findViewById(R.id.back_button2)
-
-        progressBar = findViewById(R.id.progressBar)
         recycleView = findViewById(R.id.our_recycle)
-
-
-        youSearch = findViewById(R.id.text_you_search)
+        progressBar = findViewById(R.id.progressBar)
         searchHistory = findViewById(R.id.recycle_history)
-        clearHistory = findViewById(R.id.clean_history)
         layoutHistory = findViewById(R.id.layout_history)
+        recycleView.adapter = songAdapter
+        recycleView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        searchHistory.adapter = songHistoryAdapter
+        searchHistory.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-
-
-        iconNothingFound = findViewById(R.id.placeholder_nothing_f)
-        iconNoInternet = findViewById(R.id.placeholder_no_inet)
-        buttonRefresh = findViewById(R.id.ref_button)
-        placeholderMessage = findViewById(R.id.placeh_text)
         // сохранение
         sharedPreferences = getSharedPreferences(SONGS_PREFERENCES, MODE_PRIVATE)
-        songHistoryAdapter.track = readSharedPref(sharedPreferences)
+      //  songHistoryAdapter.track = readSharedPref(sharedPreferences)
 
+        val searchInteractor = Creator.provideTrackInteractor(sharedPreferences)
+        // поиск фильма на выбор
+        viewModel = ViewModelProvider(this, SearchViewModelFactory(searchInteractor))[SearchActivityViewModel::class.java]
+        viewModel.state.observe(this) {state ->
+            when(state) {
+                SearchStates.Empty -> showEmptyResult()
+                SearchStates.Error -> showTracksError()
+                SearchStates.Loading -> showLoading()
+                is SearchStates.Tracks -> showTracks(state.tracks)
+                SearchStates.ClearTracks -> {
+                    clearSearchText()
+                    hideKeyboard()
+                    hideTracks()
+                }
+                is SearchStates.History -> {
+                    songHistoryAdapter.track = state.history
+                    songHistoryAdapter.notifyDataSetChanged()
+                    if(state.isShown and songHistoryAdapter.track.isNotEmpty()){
+                        searchHistory.visibility = View.VISIBLE
+                        layoutHistory.visibility = View.VISIBLE
+                        hideNoInternetNothingFoundViews()
+                        binding.cleanHistory.visibility = View.VISIBLE
+                    } else {
+                        searchHistory.visibility = View.GONE
+                        binding.cleanHistory.visibility = View.GONE
+                    }
+                }
+                SearchStates.ClearHistory -> clearSearchHistory()
+            }
 
-        //Кнопочка назад
-        backButton.setOnClickListener {
+        }
+
+        binding.backButton2.setOnClickListener {
             finish()
         }
-
-        //Поиск
-        buttonRefresh.setOnClickListener {
-            search()
+        binding.refButton.setOnClickListener {
+            viewModel.searchTracks(editText.text.toString())
         }
 
-        //Отчистить строку
-        clearIcon.setOnClickListener {
-            editText.text.clear()
-            val inputMeth =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            inputMeth?.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+        binding.clearIcon.setOnClickListener {
+            viewModel.searchTextClearClicked()
+        }
+
+        binding.cleanHistory.setOnClickListener {
+            viewModel.onClearHistoryClicked()
+            layoutHistory.visibility = View.GONE
         }
 
         val textWatch = object : TextWatcher {
@@ -125,58 +134,53 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 searchDebounce()
                 clearButtonVisibility(s?.isNotEmpty() ?: false)
-                textString = editText.text.toString()
-                layoutHistory.visibility = if (editText.hasFocus() && editText.text.isEmpty() && songHistoryAdapter.track.isNotEmpty()) View.VISIBLE else View.GONE
+                viewModel.showHistoryTracksEditTextOnFocus(editText)
+                //layoutHistory.visibility = if (editText.hasFocus() && editText.text.isEmpty() && songHistoryAdapter.track.isNotEmpty()) View.VISIBLE else View.GONE
             }
             override fun afterTextChanged(s: Editable?) {}
         }
         //
         editText.addTextChangedListener(textWatch)
-        recycleView.adapter = songAdapter
-        recycleView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        searchHistory.adapter = songHistoryAdapter
-        searchHistory.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
 
         // нажатие на элемент
-        songAdapter.onTrackClickListener(object: TrackOnClickListener {
-            override fun onClicked(track: Int) {
-                showSearchHistory(track)
-                val trackChosen = songAdapter.track[track]
-                openChosenTrackActivity(trackChosen)
+        songAdapter.setOnTrackClickListener(object: SongsAdapter.onTrackClickListener {
+            override fun onClicked(position: Int) {
+                if(clickDebounce()) {
+                    val chosenTrack = songAdapter.track[position]
+                    showSearchHistory(chosenTrack)
+                    router(chosenTrack)
+                }
             }
         })
-        songHistoryAdapter.onTrackClickListener(object: TrackOnClickListener {
-            override fun onClicked(track: Int) {
-                val trackChosen = songHistoryAdapter.track[track]
-                openChosenTrackActivity(trackChosen)
-                songHistoryAdapter.track = readSharedPref(sharedPreferences)
-
+        songHistoryAdapter.setOnTrackClickListener(object: SongsAdapter.onTrackClickListener  {
+            override fun onClicked(position: Int) {
+                val trackChosen = songHistoryAdapter.track[position]
+                addTrackOnTopSearchHistory(trackChosen, position)
+                router(trackChosen)
             }
         })
 
-        editText.setOnFocusChangeListener { _, isFocused ->
-            if(isFocused && songHistoryAdapter.track.isNotEmpty() && editText.text.isEmpty()) {
-                layoutHistory.visibility = View.VISIBLE
-            } else {
-                layoutHistory.visibility = View.GONE
-            }
+        editText.setOnFocusChangeListener { _, _ ->
+            viewModel.showHistoryTracksEditTextOnFocus(editText)
         }
         // отчистить историю
-        clearHistory.setOnClickListener {
-            songHistoryAdapter.track.clear()
-            songHistoryAdapter.notifyDataSetChanged()
-            addToList(sharedPreferences, songHistoryAdapter.track)
-            layoutHistory.visibility = View.GONE
-        }
 
-        editText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                search()
-                true
-            }
-            false
-        }
+
     }
+
+    private fun loadTracks(){
+        viewModel.searchTracks(editText.text.toString())
+    }
+
+    private fun router(chosenTrack: DataSongs) {
+        val displayAudioPlayer = Intent(this, AudioPlayerActivity::class.java)
+        displayAudioPlayer.putExtra("chosen_track", Gson().toJson(chosenTrack))
+        this.startActivity(displayAudioPlayer)
+    }
+
+
+
     private fun searchDebounce() {
         handler.removeCallbacks(searchRunnable)
         handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
@@ -189,98 +193,88 @@ class SearchActivity : AppCompatActivity() {
         }
         return current
     }
+
+    private fun addTrackOnTopSearchHistory(trackChosen: DataSongs, position: Int){
+        songHistoryAdapter.track.add(0, trackChosen)
+        songHistoryAdapter.track.removeAt(position + 1)
+        songHistoryAdapter.notifyDataSetChanged()
+        viewModel.writeToSharedPreferences(songHistoryAdapter.track)
+    }
+
+    private fun showEmptyResult(){
+        progressBar.visibility = View.GONE
+        binding.placeholderNothingF.visibility = View.VISIBLE
+        binding.placehText.visibility = View.VISIBLE
+        binding.placehText.text = getString(R.string.nothing_found)
+    }
+    private fun showTracks(tracks: List<DataSongs>){
+        progressBar.visibility = View.GONE
+        recycleView.visibility = View.VISIBLE
+        songAdapter.track.clear()
+        songAdapter.track.addAll(tracks)
+        songAdapter.notifyDataSetChanged()
+    }
+
+    private fun showTracksError(){
+        progressBar.visibility = View.GONE
+        binding.placeholderNoInet.visibility = View.VISIBLE
+        binding.refButton.visibility = View.VISIBLE
+        binding.placehText.visibility = View.VISIBLE
+        binding.placehText.text = getString(R.string.no_conection)
+    }
+
+    private fun clearSearchText() {
+        editText.setText("")
+    }
+    private fun hideKeyboard() {
+        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        inputMethodManager?.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+    }
+
+    private fun hideTracks() {
+        songAdapter.track.clear()
+        songAdapter.notifyDataSetChanged()
+    }
+
+    private fun hideNoInternetNothingFoundViews(){
+        binding.placeholderNoInet.visibility = View.GONE
+        binding.refButton.visibility = View.GONE
+        binding.placeholderNothingF.visibility = View.GONE
+        binding.placehText.visibility = View.GONE
+    }
+
+    private fun showLoading() {
+        songAdapter.track.clear()
+        songAdapter.notifyDataSetChanged()
+        recycleView.visibility = View.GONE
+        binding.placeholderNoInet.visibility = View.GONE
+        binding.refButton.visibility = View.GONE
+        binding.placeholderNothingF.visibility = View.GONE
+        searchHistory.visibility = View.GONE
+        binding.placehText.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun clearSearchHistory(){
+        songHistoryAdapter.track.clear()
+        songAdapter.notifyDataSetChanged()
+        viewModel.writeToSharedPreferences(songHistoryAdapter.track)
+        searchHistory.visibility = View.GONE
+    }
+
     // отчистка поиска
     private fun clearButtonVisibility(isVisible: Boolean) {
-        clearIcon.visibility = if (isVisible) View.VISIBLE else View.GONE
+        binding.clearIcon.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
    companion object {
       private  const val SEARCH = "TEXT"
     }
     // показать текст ошибки
-    private fun showMessage(text: String, additionalMessage: String) {
-        if(text.isNotEmpty()) {
-            placeholderMessage.visibility = View.VISIBLE
-            songAdapter.track.clear()
-            songAdapter.notifyDataSetChanged()
-            placeholderMessage.text = text
-            if(additionalMessage.isNotEmpty()) {
-                Toast.makeText(applicationContext, additionalMessage, Toast.LENGTH_LONG)
-                    .show()
-            }
-        } else {
-            placeholderMessage.visibility = View.GONE
-        }
-    }
+
     // показать картинку
-    private fun showPlaceHolder(text: String)  {
-        when(text) {
-            getString(R.string.no_conection) -> {
-                iconNothingFound.visibility = View.GONE
-                iconNoInternet.visibility = View.VISIBLE
-                buttonRefresh.visibility = View.VISIBLE
-            }
-            getString(R.string.nothing_found) -> {
-                iconNothingFound.visibility = View.VISIBLE
-                iconNoInternet.visibility = View.GONE
-                buttonRefresh.visibility = View.GONE
-            }
-            else -> {
-                iconNothingFound.visibility = View.GONE
-                iconNoInternet.visibility = View.GONE
-                buttonRefresh.visibility = View.GONE
-            }
-
-        }
-    }
-    private fun openChosenTrackActivity(addedSong: DataSongs) {
-        if(clickDebounce()) {
-            val audioPlayer = Intent(this, AudioPlayerActivity::class.java)
-            audioPlayer.putExtra(CHOSEN_TRACK, Gson().toJson(addedSong))
-            startActivity(audioPlayer)
-        }
-    }
 
 
-    // поиск трека
-    private fun search() {
-        if(editText.text.isNotEmpty()) {
-            progressBar.visibility = View.VISIBLE
-            showMessage("", "")
-            showPlaceHolder(getString(R.string.error))
-            imdbService.search(editText.text.toString()).enqueue(object : Callback<TrackResponse>{
-                override fun onResponse(
-                    call: Call<TrackResponse>,
-                    response: Response<TrackResponse>
-                ) {
-                    progressBar.visibility = View.GONE
-                    if(response.code() == 200) {
-                        recycleView.visibility = View.VISIBLE
-                        songAdapter.track.clear()
-                        if (response.body()?.results?.isNotEmpty() == true) {
-                            songAdapter.track.addAll(response.body()?.results!!)
-                            songAdapter.notifyDataSetChanged()
-                        }
-                        if(songAdapter.track.isEmpty()) {
-                            showMessage(getString(R.string.nothing_found), "")
-                            showPlaceHolder(getString(R.string.nothing_found))
-                        } else {
-                            showMessage("", "")
-                        }
-                    } else {
-                        showMessage(getString(R.string.no_conection), response.code().toString())
-                        showPlaceHolder(getString(R.string.no_conection))
-                    }
-                }
-
-                override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
-                    progressBar.visibility = View.GONE
-                    showMessage(getString(R.string.no_conection), t.message.toString())
-                    showPlaceHolder(getString(R.string.no_conection))
-                }
-            })
-        }
-    }
 
     // функции для истории
     // хранение данных
@@ -293,45 +287,29 @@ class SearchActivity : AppCompatActivity() {
         textString = savedInstanceState.getString(SEARCH).toString()
         editText.setText(textString)
     }
-    private fun readSharedPref(sharedPreferences: SharedPreferences?): ArrayList<DataSongs> {
-        val songsSh = sharedPreferences?.getString(SONGS_LIST_KEY, null) ?: return ArrayList()
-        return Gson().fromJson(songsSh, object : TypeToken<ArrayList<DataSongs>>() {}
-            .type)
-    }
-    private fun addToList(sharedPreferences: SharedPreferences, songList: ArrayList<DataSongs>) {
-        sharedPreferences.edit()
-            .putString(SONGS_LIST_KEY, Gson().toJson(songList))
-            .apply()
-    }
-    private fun findSong(position: Int): DataSongs {
-        return songAdapter.track[position]
-    }
-    private fun showSearchHistory(position: Int) {
-        songHistoryAdapter.track = readSharedPref(sharedPreferences)
-        val chosenTrack = findSong(position)
-        val historyTrack = songHistoryAdapter.track
 
-        if(historyTrack.size < 10) {
-            if(historyTrack.isNotEmpty()) {
-                if (historyTrack.contains(chosenTrack)) {
-                    historyTrack.remove(chosenTrack)
+    private fun showSearchHistory(chosenTrack: DataSongs) {
+        if(songHistoryAdapter.track.size < 10) {
+            if(songHistoryAdapter.track.isNotEmpty()) {
+                if (songHistoryAdapter.track.contains(chosenTrack)) {
+                    songHistoryAdapter.track.remove(chosenTrack)
                 }
-                historyTrack.add(0, chosenTrack)
+                songHistoryAdapter.track.add(0, chosenTrack)
             } else {
-                historyTrack.add(chosenTrack)
+                songHistoryAdapter.track.add(chosenTrack)
             }
         } else {
-            if(historyTrack.contains(chosenTrack)) {
-                historyTrack.remove(chosenTrack)
-                historyTrack.add(0, chosenTrack)
+            if(songHistoryAdapter.track.contains(chosenTrack)) {
+                songHistoryAdapter.track.remove(chosenTrack)
+                songHistoryAdapter.track.add(0, chosenTrack)
             } else {
                 for (i in 9 downTo 1) {
-                    historyTrack[i] = historyTrack[i - 1]
+                    songHistoryAdapter.track[i] = songHistoryAdapter.track[i - 1]
                 }
-                historyTrack[0] = chosenTrack
+                songHistoryAdapter.track[0] = chosenTrack
             }
         }
         songHistoryAdapter.notifyDataSetChanged()
-        addToList(sharedPreferences, historyTrack)
+        viewModel.writeToSharedPreferences(songHistoryAdapter.track)
     }
 }

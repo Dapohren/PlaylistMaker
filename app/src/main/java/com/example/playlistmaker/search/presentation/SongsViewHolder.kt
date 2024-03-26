@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class SongsViewHolder(itemView: View, trackListener: TrackOnClickListener?): RecyclerView.ViewHolder(itemView) {
+class SongsViewHolder(itemView: View, listener: SongsAdapter.onTrackClickListener?): RecyclerView.ViewHolder(itemView) {
     private val songName: TextView = itemView.findViewById(R.id.song_name)
     private val artistName: TextView = itemView.findViewById(R.id.song_performer)
     private val songIcon: ImageView = itemView.findViewById(R.id.song_image)
@@ -20,7 +20,7 @@ class SongsViewHolder(itemView: View, trackListener: TrackOnClickListener?): Rec
 
     init{
         itemView.setOnClickListener {
-            trackListener?.onClicked(adapterPosition)
+            listener?.onClicked(adapterPosition)
         }
     }
     fun bind(item: DataSongs) {
