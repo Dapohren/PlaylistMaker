@@ -7,8 +7,8 @@ import com.example.playlistmaker.player.domain.model.PlayerState
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class AudioPlayerRepositoryImpl(private val url: String) : AudioPlayerRepository {
-    private val mediaPlayer = MediaPlayer()
+class AudioPlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : AudioPlayerRepository {
+
 
     override var listener: AudioPlayerStateListener? = null
     override fun prepareAudio() {
@@ -39,7 +39,7 @@ class AudioPlayerRepositoryImpl(private val url: String) : AudioPlayerRepository
         mediaPlayer.release()
     }
 
-    override fun setDataSource() {
+    override fun setDataSource(url: String) {
         mediaPlayer.setDataSource(url)
     }
 

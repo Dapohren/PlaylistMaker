@@ -2,7 +2,6 @@ package com.example.playlistmaker.search.presentation
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -15,8 +14,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ProgressBar
-
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.search.domain.models.DataSongs
@@ -24,43 +21,33 @@ import com.example.playlistmaker.R
 
 import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.player.ui.AudioPlayerActivity
-import com.example.playlistmaker.util.Creator
 import com.google.gson.Gson
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 const val SONGS_PREFERENCES = "songs_preferences"
-
-
-
 private const val CLICK_DEBOUNCE_DELAY = 1000L
 private const val SEARCH_DEBOUNCE_DELAY = 2000L
 const val CHOSEN_TRACK = "chosen_track"
 const val SONGS_LIST_KEY = "songs_list_key"
 
 class SearchActivity : AppCompatActivity() {
-    private val searchRunnable = Runnable { loadTracks() }
+
     private lateinit var editText: EditText
     private lateinit var binding: ActivitySearchBinding
-    private lateinit var viewModel: SearchActivityViewModel
-    //private val searchRunnable = Runnable { search() }
+    private val viewModel: SearchActivityViewModel by viewModel()
     private lateinit var recycleView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
-    //Кнопки истории
-
-   // private lateinit var youSearch: TextView
     private lateinit var searchHistory: RecyclerView
     private lateinit var layoutHistory: LinearLayout
-    // кнопки экрана и экрана ошибки
 
     private var textString: String = ""
 
-    // инициализация адаптер
-
     private val songAdapter = SongsAdapter()
     private val songHistoryAdapter = SongsAdapter()
-    private lateinit var sharedPreferences : SharedPreferences
+    private val searchRunnable = Runnable { loadTracks() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,13 +64,6 @@ class SearchActivity : AppCompatActivity() {
         searchHistory.adapter = songHistoryAdapter
         searchHistory.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        // сохранение
-        sharedPreferences = getSharedPreferences(SONGS_PREFERENCES, MODE_PRIVATE)
-      //  songHistoryAdapter.track = readSharedPref(sharedPreferences)
-
-        val searchInteractor = Creator.provideTrackInteractor(sharedPreferences)
-        // поиск фильма на выбор
-        viewModel = ViewModelProvider(this, SearchViewModelFactory(searchInteractor))[SearchActivityViewModel::class.java]
         viewModel.state.observe(this) {state ->
             when(state) {
                 SearchStates.Empty -> showEmptyResult()
@@ -135,15 +115,12 @@ class SearchActivity : AppCompatActivity() {
                 searchDebounce()
                 clearButtonVisibility(s?.isNotEmpty() ?: false)
                 viewModel.showHistoryTracksEditTextOnFocus(editText)
-                //layoutHistory.visibility = if (editText.hasFocus() && editText.text.isEmpty() && songHistoryAdapter.track.isNotEmpty()) View.VISIBLE else View.GONE
+
             }
             override fun afterTextChanged(s: Editable?) {}
         }
-        //
         editText.addTextChangedListener(textWatch)
 
-
-        // нажатие на элемент
         songAdapter.setOnTrackClickListener(object: SongsAdapter.onTrackClickListener {
             override fun onClicked(position: Int) {
                 if(clickDebounce()) {
@@ -164,9 +141,6 @@ class SearchActivity : AppCompatActivity() {
         editText.setOnFocusChangeListener { _, _ ->
             viewModel.showHistoryTracksEditTextOnFocus(editText)
         }
-        // отчистить историю
-
-
     }
 
     private fun loadTracks(){
@@ -262,7 +236,6 @@ class SearchActivity : AppCompatActivity() {
         searchHistory.visibility = View.GONE
     }
 
-    // отчистка поиска
     private fun clearButtonVisibility(isVisible: Boolean) {
         binding.clearIcon.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
@@ -270,14 +243,7 @@ class SearchActivity : AppCompatActivity() {
    companion object {
       private  const val SEARCH = "TEXT"
     }
-    // показать текст ошибки
 
-    // показать картинку
-
-
-
-    // функции для истории
-    // хранение данных
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(SEARCH, textString)

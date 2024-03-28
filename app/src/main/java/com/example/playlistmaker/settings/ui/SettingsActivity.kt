@@ -4,8 +4,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
-import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySettingsBinding
 import com.example.playlistmaker.settings.presentation.SettingsViewModel
@@ -14,7 +12,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsActivity: AppCompatActivity() {
     private lateinit var binding: ActivitySettingsBinding
-    private lateinit var switchDarkMode: SwitchCompat
     private lateinit var shareApp: Button
     private lateinit var supportButton: Button
     private lateinit var agreeButton: Button
@@ -23,12 +20,10 @@ class SettingsActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // setContentView(R.layout.activity_settings)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
-       // viewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
         shareApp = binding.share
         supportButton = binding.help
         agreeButton = binding.agree

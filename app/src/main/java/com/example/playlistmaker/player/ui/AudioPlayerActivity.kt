@@ -3,33 +3,28 @@ package com.example.playlistmaker.player.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
 import android.widget.ImageView
 import android.widget.TextView
-
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityAudioPlayerBinding
-import com.example.playlistmaker.player.domain.model.PlayerState
-import com.example.playlistmaker.player.domain.model.States
 import com.example.playlistmaker.player.presentation.AudioPlayerState
 import com.example.playlistmaker.player.presentation.AudioPlayerViewModel
 import com.example.playlistmaker.search.presentation.CHOSEN_TRACK
 import com.example.playlistmaker.search.domain.models.DataSongs
-import com.example.playlistmaker.util.Creator
 import com.google.gson.Gson
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class AudioPlayerActivity : AppCompatActivity() {
-    private lateinit var viewModel: AudioPlayerViewModel
+    private var url: String = ""
+    private val viewModel: AudioPlayerViewModel by viewModel()
     private lateinit var binding: ActivityAudioPlayerBinding
     private lateinit var chosenTrack: DataSongs
     private lateinit var pictureSong: ImageView
     private lateinit var extras: Bundle
-    private var url: String = ""
     private lateinit var timeNum: TextView
 
 
@@ -61,9 +56,8 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.genreName.text = chosenTrack.primaryGenreName
         binding.countryName.text = chosenTrack.country
         url = chosenTrack.previewUrl
+        viewModel.startPlayer(url)
 
-
-        viewModel = ViewModelProvider(this, Creator.provideAudioPlayerViewModelFactory(url))[AudioPlayerViewModel::class.java]
         viewModel.state.observe(this){ state ->
             when (state){
                 AudioPlayerState.NotReady -> playButtonAvailability(false)

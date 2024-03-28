@@ -18,7 +18,7 @@ interface AudioPlayerInteractor {
 
     fun unSubscribeOnPlayer()
 
-    fun setDataSource()
+    fun setDataSource(url: String)
 
     fun showCurrentPosition(): String
 

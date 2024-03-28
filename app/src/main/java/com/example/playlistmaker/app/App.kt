@@ -3,6 +3,13 @@ package com.example.playlistmaker.app
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmaker.player.di.audioPlayerDataModule
+import com.example.playlistmaker.player.di.audioPlayerDomainModule
+import com.example.playlistmaker.player.di.audioPlayerViewModelModule
+import com.example.playlistmaker.search.di.searchDataModule
+import com.example.playlistmaker.search.di.searchDomainModule
+import com.example.playlistmaker.search.di.searchRepositoryModule
+import com.example.playlistmaker.search.di.searchViewModelModule
 import com.example.playlistmaker.settings.di.data.settingsDataModule
 import com.example.playlistmaker.settings.di.data.settingsRepositoryModule
 import com.example.playlistmaker.settings.di.domain.settingsDomainModule
@@ -22,6 +29,8 @@ class App : Application() {
         startKoin{
             androidContext(this@App)
             modules (
+                searchDataModule, searchRepositoryModule, searchDomainModule, searchViewModelModule,
+                audioPlayerDataModule, audioPlayerDomainModule, audioPlayerViewModelModule,
                 settingsDataModule, settingsRepositoryModule, settingsDomainModule, settingsViewModelModule
             )
         }
@@ -38,11 +47,7 @@ class App : Application() {
             }
         )
     }
-    fun saveState(){
-        sharedPref.edit()
-            .putBoolean(KEY,darkTheme)
-            .apply()
-    }
+
     companion object{
         const val PREFERENCES = "pref"
         const val KEY = "key_theme"

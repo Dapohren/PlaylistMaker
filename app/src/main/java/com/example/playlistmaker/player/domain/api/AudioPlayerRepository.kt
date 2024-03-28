@@ -12,7 +12,7 @@ interface AudioPlayerRepository {
 
     fun releasePlayer()
 
-    fun setDataSource()
+    fun setDataSource(url: String)
 
     fun showCurrentPosition(): String
 }

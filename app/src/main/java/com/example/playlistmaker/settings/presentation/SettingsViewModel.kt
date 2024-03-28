@@ -1,25 +1,14 @@
 package com.example.playlistmaker.settings.presentation
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.settings.domain.Impl.SettingsInteractorImpl
-import com.example.playlistmaker.settings.domain.Impl.SharingInteractorImpl
 import com.example.playlistmaker.settings.domain.SettingsInteractor
 import com.example.playlistmaker.settings.domain.SharingInteractor
-
 import com.example.playlistmaker.settings.domain.model.ThemeSettings
-import com.example.playlistmaker.util.Creator
 
 class SettingsViewModel(private val settingsInteractor: SettingsInteractor, private val sharingInteractor: SharingInteractor) : ViewModel(){
 
-   /* private val settingsInteractor by lazy {
-        Creator.provideSettingsInteractor(context = getApplication<Application>())
-    }
 
-    private val sharingInteractor by lazy {
-        Creator.provideSharingInteractor(context = getApplication<Application>())
-    }*/
 
     fun updateThemeSettings(checked: Boolean) {
         if (checked) {
@@ -40,8 +29,6 @@ class SettingsViewModel(private val settingsInteractor: SettingsInteractor, priv
     fun openTerms(url: String) {
         sharingInteractor.openTerms(link = url)
     }
-
-
 
 
 }
