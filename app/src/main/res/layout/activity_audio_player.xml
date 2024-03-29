@@ -72,6 +72,7 @@
         android:fontFamily="@font/ys_display_medium"
         android:textSize="@dimen/text_size_big_button"
         app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintEnd_toStartOf="@id/rightBorderSmall"
         android:layout_width="0dp"
         android:layout_height="wrap_content"/>
     <TextView
@@ -162,10 +163,16 @@
         style="@style/PlayerInfoDit"
         android:id="@+id/albumName"
         android:text="@string/album"
+        android:maxLines="1"
+        android:layout_marginStart="10dp"
+        android:ellipsize="end"
+        app:layout_constrainedWidth="true"
         app:layout_constraintBaseline_toBaselineOf="@id/album"
         app:layout_constraintBottom_toTopOf="@+id/yearNum"
         app:layout_constraintTop_toBottomOf="@id/timeDuration"
         app:layout_constraintEnd_toStartOf="@id/rightBorderSmall"
+        app:layout_constraintStart_toEndOf="@+id/album"
+        android:gravity="end"
         android:layout_width="0dp"
         android:layout_height="wrap_content"/>
     <TextView

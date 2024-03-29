@@ -15,6 +15,10 @@ class SearchActivityViewModel(private val trackInteractor: TrackInteractor): Vie
         _state.postValue(SearchStates.ClearHistory)
     }
 
+    fun setState(newState: SearchStates) {
+        _state.postValue(newState)
+    }
+
     fun searchTextClearClicked() {
         _state.postValue(SearchStates.ClearTracks)
     }
@@ -50,6 +54,7 @@ class SearchActivityViewModel(private val trackInteractor: TrackInteractor): Vie
             }
         }
     }
+
 
     private fun readFromSharedPreferences(): ArrayList<DataSongs>{
         return trackInteractor.readFromSharedPreferences()

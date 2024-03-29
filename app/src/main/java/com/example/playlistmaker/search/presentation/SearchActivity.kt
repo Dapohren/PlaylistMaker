@@ -113,6 +113,8 @@ class SearchActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 searchDebounce()
+                layoutHistory.visibility = View.GONE
+                searchHistory.visibility = View.GONE
                 clearButtonVisibility(s?.isNotEmpty() ?: false)
                 viewModel.showHistoryTracksEditTextOnFocus(editText)
 
@@ -141,6 +143,7 @@ class SearchActivity : AppCompatActivity() {
         editText.setOnFocusChangeListener { _, _ ->
             viewModel.showHistoryTracksEditTextOnFocus(editText)
         }
+
     }
 
     private fun loadTracks(){
@@ -182,6 +185,8 @@ class SearchActivity : AppCompatActivity() {
         binding.placehText.text = getString(R.string.nothing_found)
     }
     private fun showTracks(tracks: List<DataSongs>){
+        layoutHistory.visibility = View.GONE
+        searchHistory.visibility = View.GONE
         progressBar.visibility = View.GONE
         recycleView.visibility = View.VISIBLE
         songAdapter.track.clear()
@@ -225,6 +230,7 @@ class SearchActivity : AppCompatActivity() {
         binding.refButton.visibility = View.GONE
         binding.placeholderNothingF.visibility = View.GONE
         searchHistory.visibility = View.GONE
+        layoutHistory.visibility = View.GONE
         binding.placehText.visibility = View.GONE
         progressBar.visibility = View.VISIBLE
     }

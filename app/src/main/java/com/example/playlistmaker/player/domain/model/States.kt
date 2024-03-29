@@ -4,5 +4,5 @@ enum class States {
     STATE_DEFAULT,
     STATE_PREPARED,
     STATE_PLAYING,
-    STATE_PAUSED
+    STATE_PAUSED,
 }

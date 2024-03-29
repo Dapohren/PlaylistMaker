@@ -1,6 +1,7 @@
 package com.example.playlistmaker.player.ui
 
 
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -34,9 +35,9 @@ class AudioPlayerActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-            extras = intent.extras!!
-            val chosenTrackJSON = intent.extras?.getString(CHOSEN_TRACK)
-            chosenTrack = Gson().fromJson(chosenTrackJSON, DataSongs::class.java)
+        extras = intent.extras!!
+        val chosenTrackJSON = intent.extras?.getString(CHOSEN_TRACK)
+        chosenTrack = Gson().fromJson(chosenTrackJSON, DataSongs::class.java)
 
         pictureSong = findViewById(R.id.songPicture)
         timeNum = findViewById(R.id.timeNum)
@@ -74,6 +75,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
                 }
 
+                else -> {}
             }
 
         }
@@ -101,8 +103,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.buttonPlay.isEnabled = isAvailable
     }
 
-
-    }
+}
 
 
 

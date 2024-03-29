@@ -44,7 +44,7 @@ class SettingsActivity: AppCompatActivity() {
         shareApp.setOnClickListener {
             viewModel.shareApp(
                 url = getString(R.string.appID),
-                title = getString(R.string.share_app_title)
+                title = getString(R.string.appID)
 
             )
         }

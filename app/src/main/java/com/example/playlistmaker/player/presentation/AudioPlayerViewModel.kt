@@ -25,7 +25,7 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInterac
     }
 
     fun startPlayer(url: String) {
-            preparePlayer(url)
+        preparePlayer(url)
     }
 
 
