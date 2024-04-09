@@ -3,6 +3,7 @@ package com.example.playlistmaker.app
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmaker.media.di.mediaViewModelModule
 import com.example.playlistmaker.player.di.audioPlayerDataModule
 import com.example.playlistmaker.player.di.audioPlayerDomainModule
 import com.example.playlistmaker.player.di.audioPlayerViewModelModule
@@ -31,7 +32,8 @@ class App : Application() {
             modules (
                 searchDataModule, searchRepositoryModule, searchDomainModule, searchViewModelModule,
                 audioPlayerDataModule, audioPlayerDomainModule, audioPlayerViewModelModule,
-                settingsDataModule, settingsRepositoryModule, settingsDomainModule, settingsViewModelModule
+                settingsDataModule, settingsRepositoryModule, settingsDomainModule, settingsViewModelModule,
+                mediaViewModelModule
             )
         }
 

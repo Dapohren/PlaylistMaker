@@ -4,8 +4,6 @@ import android.media.MediaPlayer
 import com.example.playlistmaker.player.domain.AudioPlayerStateListener
 import com.example.playlistmaker.player.domain.api.AudioPlayerRepository
 import com.example.playlistmaker.player.domain.model.PlayerState
-import com.example.playlistmaker.player.domain.model.States
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Locale
 

@@ -64,4 +64,8 @@
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textSize">@dimen/text_size_player</item>
     </style>
+    <style name="TextForTabMedia">
+        <item name="android:textSize">@dimen/text_size_update</item>
+        <item name="fontFamily">@font/ys_display_medium</item>
+    </style>
 </resources>

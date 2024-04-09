@@ -1,6 +1,6 @@
 package com.example.playlistmaker.player.domain.Impl
 
-import com.example.playlistmaker.player.domain.AudioPlayerInteractor
+import    com.example.playlistmaker.player.domain.AudioPlayerInteractor
 import com.example.playlistmaker.player.domain.AudioPlayerStateListener
 import com.example.playlistmaker.player.domain.api.AudioPlayerRepository
 import com.example.playlistmaker.player.domain.model.States

@@ -1,7 +1,6 @@
 package com.example.playlistmaker.player.domain.api
 
 import com.example.playlistmaker.player.domain.AudioPlayerStateListener
-import com.example.playlistmaker.player.domain.model.States
 
 interface AudioPlayerRepository {
     var listener: AudioPlayerStateListener?
