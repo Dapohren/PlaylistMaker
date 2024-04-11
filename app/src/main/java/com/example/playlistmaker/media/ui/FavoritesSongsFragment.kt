@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.playlistmaker.R
 import com.example.playlistmaker.media.presentation.FavoritesSongsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritesSongsFragment : Fragment() {
 
@@ -21,7 +22,7 @@ class FavoritesSongsFragment : Fragment() {
 
     }
 
-    private lateinit var viewModel: FavoritesSongsViewModel
+    private val viewModel: FavoritesSongsViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,11 +34,4 @@ class FavoritesSongsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
-
-   /* override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(FavoritesSongsViewModel::class.java)
-        // TODO: Use the ViewModel
-    }*/
-
 }
