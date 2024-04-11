@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/empty_list_image"
+        android:gravity="center"
         style="@style/NothingFound"
         android:contentDescription="@string/nothing_found"/>
     <TextView

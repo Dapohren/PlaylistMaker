@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/empty_fav_image"
         style="@style/NothingFound"
+        android:gravity="center"
         android:contentDescription="@string/nothing_found"/>
     <TextView
         app:layout_constraintTop_toBottomOf="@+id/empty_fav_image"
