@@ -3,26 +3,23 @@ package com.example.playlistmaker.search.data.network
 import com.example.playlistmaker.search.data.NetworkClient
 import com.example.playlistmaker.search.data.dto.Response
 import com.example.playlistmaker.search.data.dto.TrackSearchRequest
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitNetworkClient : NetworkClient {
-    private val baseURL = "https://itunes.apple.com"
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(baseURL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    private val imdbService = retrofit.create(iTunesApi::class.java)
-    override fun doRequest(dto: Any): Response {
-        return if (dto is TrackSearchRequest) {
-            val resp = imdbService.search(dto.expression).execute()
 
+
+class RetrofitNetworkClient(private val imdbService: iTunesApi) : NetworkClient {
+
+    override fun doRequest(request: TrackSearchRequest): Response {
+        return try {
+            val resp = imdbService.search(request.expression).execute()
             val body = resp.body() ?: Response()
+            body.apply {
+                resultCode = resp.code()
+            }
+        } catch (exception: Exception) {
+            Response().apply {
+                resultCode = 400
+            }
 
-            body.apply { resultCode = resp.code() }
-        } else {
-            Response().apply { resultCode = 400 }
         }
-
     }
 }

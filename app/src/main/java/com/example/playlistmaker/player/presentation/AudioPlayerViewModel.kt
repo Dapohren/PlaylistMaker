@@ -21,7 +21,11 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInterac
 
     init {
         _state.postValue(AudioPlayerState.NotReady)
-        preparePlayer()
+
+    }
+
+    fun startPlayer(url: String) {
+        preparePlayer(url)
     }
 
 
@@ -69,8 +73,8 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInterac
         handlerRemoveCallbacks()
     }
 
-    private fun preparePlayer() {
-        audioPlayerInteractor.setDataSource()
+    private fun preparePlayer(url: String) {
+        audioPlayerInteractor.setDataSource(url)
         audioPlayerInteractor.prepareAudio()
 
         audioPlayerInteractor.subscribeOnPlayer { state ->

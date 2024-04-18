@@ -12,7 +12,7 @@ import com.google.gson.reflect.TypeToken
 import java.util.concurrent.Executors
 
 class TrackInteractorImpl(private val repository: TrackRepository,
-                          override val sharedPreferences: SharedPreferences,
+                          private val sharedPreferences: SharedPreferences,
                           ) : TrackInteractor {
 
     private val executor = Executors.newCachedThreadPool()

@@ -1,10 +1,9 @@
 package com.example.playlistmaker.player.domain.Impl
 
-import com.example.playlistmaker.player.domain.AudioPlayerInteractor
+import    com.example.playlistmaker.player.domain.AudioPlayerInteractor
 import com.example.playlistmaker.player.domain.AudioPlayerStateListener
 import com.example.playlistmaker.player.domain.api.AudioPlayerRepository
 import com.example.playlistmaker.player.domain.model.States
-import com.example.playlistmaker.player.ui.AudioPlayerActivity
 
 class AudioPlayerInteractorImpl(private val audioPlayerRepository: AudioPlayerRepository) : AudioPlayerInteractor {
 
@@ -41,8 +40,8 @@ class AudioPlayerInteractorImpl(private val audioPlayerRepository: AudioPlayerRe
         audioPlayerRepository.listener = null
     }
 
-    override fun setDataSource() {
-        audioPlayerRepository.setDataSource()
+    override fun setDataSource(url: String) {
+        audioPlayerRepository.setDataSource(url)
     }
 
 
