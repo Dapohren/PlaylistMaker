@@ -6,7 +6,7 @@ import com.example.playlistmaker.search.domain.api.TrackInteractor
 import com.example.playlistmaker.search.domain.api.TrackRepository
 import com.example.playlistmaker.search.domain.models.DataSongs
 import com.example.playlistmaker.search.presentation.Resource
-import com.example.playlistmaker.search.presentation.SONGS_LIST_KEY
+import com.example.playlistmaker.search.ui.SONGS_LIST_KEY
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.concurrent.Executors

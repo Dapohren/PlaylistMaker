@@ -1,7 +1,6 @@
 package com.example.playlistmaker.player.ui
 
 
-import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -12,7 +11,7 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityAudioPlayerBinding
 import com.example.playlistmaker.player.presentation.AudioPlayerState
 import com.example.playlistmaker.player.presentation.AudioPlayerViewModel
-import com.example.playlistmaker.search.presentation.CHOSEN_TRACK
+import com.example.playlistmaker.search.ui.CHOSEN_TRACK
 import com.example.playlistmaker.search.domain.models.DataSongs
 import com.google.gson.Gson
 import org.koin.androidx.viewmodel.ext.android.viewModel
