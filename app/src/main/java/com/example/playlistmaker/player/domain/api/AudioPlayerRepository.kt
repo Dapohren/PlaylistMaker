@@ -15,4 +15,5 @@ interface AudioPlayerRepository {
     fun setDataSource(url: String)
 
     fun showCurrentPosition(): String
+    fun isPlaying(): Boolean
 }

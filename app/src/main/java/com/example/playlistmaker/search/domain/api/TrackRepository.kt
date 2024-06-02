@@ -3,7 +3,9 @@ package com.example.playlistmaker.search.domain.api
 
 
 import com.example.playlistmaker.search.domain.models.DataSongs
+import com.example.playlistmaker.search.presentation.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface TrackRepository {
-    fun searchTracks(expression: String) : com.example.playlistmaker.search.presentation.Resource<List<DataSongs>>
+    fun searchTracks(expression: String) : Flow<Resource<List<DataSongs>>>
 }

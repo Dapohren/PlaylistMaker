@@ -13,4 +13,11 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
+    <style name="BottomNavigation">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/black2</item>
+        <item name="itemTextColor">@color/bottom_nav_color_night</item>
+        <item name="itemIconTint">@color/bottom_nav_color_night</item>
+    </style>
 </resources>

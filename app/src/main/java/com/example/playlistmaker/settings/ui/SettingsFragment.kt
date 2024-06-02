@@ -2,36 +2,36 @@ package com.example.playlistmaker.settings.ui
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.ActivitySettingsBinding
+import com.example.playlistmaker.databinding.FragmentSettingsBinding
 import com.example.playlistmaker.settings.presentation.SettingsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
-class SettingsActivity: AppCompatActivity() {
-    private lateinit var binding: ActivitySettingsBinding
+class SettingsFragment: Fragment() {
+    private val viewModel: SettingsViewModel by viewModel()
     private lateinit var shareApp: Button
     private lateinit var supportButton: Button
     private lateinit var agreeButton: Button
     private lateinit var backButton: Button
-    private val viewModel: SettingsViewModel by viewModel()
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySettingsBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         shareApp = binding.share
         supportButton = binding.help
         agreeButton = binding.agree
-        backButton = binding.backButton
 
-        backButton.setOnClickListener {
-            this.finish()
-        }
 
         supportButton.setOnClickListener {
             viewModel.openSupport(
@@ -66,6 +66,10 @@ class SettingsActivity: AppCompatActivity() {
 
 
 
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
