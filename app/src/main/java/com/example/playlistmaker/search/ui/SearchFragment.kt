@@ -15,16 +15,21 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
+import com.example.playlistmaker.debounce
 import com.example.playlistmaker.player.ui.AudioPlayerActivity
 import com.example.playlistmaker.search.domain.models.DataSongs
 import com.example.playlistmaker.search.presentation.SearchActivityViewModel
 import com.example.playlistmaker.search.presentation.SearchStates
 import com.example.playlistmaker.search.presentation.SongsAdapter
 import com.google.gson.Gson
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val SONGS_PREFERENCES = "songs_preferences"
@@ -34,22 +39,25 @@ const val CHOSEN_TRACK = "chosen_track"
 const val SONGS_LIST_KEY = "songs_list_key"
 
 class SearchFragment: Fragment() {
+
     private lateinit var editText: EditText
     private val viewModel: SearchActivityViewModel by viewModel()
     private lateinit var recycleView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private var isClickAllowed = true
-    private val handler = Handler(Looper.getMainLooper())
     private lateinit var searchHistory: RecyclerView
     private lateinit var layoutHistory: LinearLayout
+
 
     private var textString: String = ""
 
     private val songAdapter = SongsAdapter()
     private val songHistoryAdapter = SongsAdapter()
-    private val searchRunnable = Runnable { loadTracks() }
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
+    private lateinit var trackSearchDebounce: (String) -> Unit
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
@@ -64,6 +72,10 @@ class SearchFragment: Fragment() {
         searchHistory = binding.recycleHistory
         layoutHistory = binding.layoutHistory
         recycleView.adapter = songAdapter
+        trackSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, true) { changedText ->
+            loadTracks(changedText)
+        }
+
         recycleView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         searchHistory.adapter = songHistoryAdapter
         searchHistory.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -114,7 +126,8 @@ class SearchFragment: Fragment() {
         val textWatch = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                searchDebounce()
+                val changedText = binding.searchButton2.text.toString()
+                searchDebounce(changedText)
                 layoutHistory.visibility = View.GONE
                 searchHistory.visibility = View.GONE
                 clearButtonVisibility(s?.isNotEmpty() ?: false)
@@ -150,8 +163,8 @@ class SearchFragment: Fragment() {
 
 
 
-private fun loadTracks(){
-    viewModel.searchTracks(editText.text.toString())
+private fun loadTracks(changedText: String){
+    viewModel.searchTracks(changedText)
 }
 
 private fun router(chosenTrack: DataSongs) {
@@ -161,15 +174,17 @@ private fun router(chosenTrack: DataSongs) {
 }
 
 
-private fun searchDebounce() {
-    handler.removeCallbacks(searchRunnable)
-    handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+private fun searchDebounce(changedText: String) {
+    trackSearchDebounce(changedText)
 }
 private fun clickDebounce() : Boolean {
     val current = isClickAllowed
     if (isClickAllowed){
         isClickAllowed = false
-        handler.postDelayed({isClickAllowed = true}, CLICK_DEBOUNCE_DELAY)
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(CLICK_DEBOUNCE_DELAY)
+            isClickAllowed = true
+        }
     }
     return current
 }
@@ -291,7 +306,6 @@ override fun onSaveInstanceState(outState: Bundle) {
 }
     override fun onDestroyView() {
         super.onDestroyView()
-        handler.removeCallbacks(searchRunnable)
         _binding = null
     }
 

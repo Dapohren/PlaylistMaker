@@ -26,6 +26,6 @@ val searchDataModule = module {
                 AppCompatActivity.MODE_PRIVATE)
     }
     single<NetworkClient> {
-        RetrofitNetworkClient(get())
+        RetrofitNetworkClient(get(), androidContext())
     }
 }

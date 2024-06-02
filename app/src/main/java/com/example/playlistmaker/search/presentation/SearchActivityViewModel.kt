@@ -4,8 +4,10 @@ import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.search.domain.api.TrackInteractor
 import com.example.playlistmaker.search.domain.models.DataSongs
+import kotlinx.coroutines.launch
 
 class SearchActivityViewModel(private val trackInteractor: TrackInteractor): ViewModel() {
     private val _state = MutableLiveData<SearchStates>()
@@ -15,9 +17,6 @@ class SearchActivityViewModel(private val trackInteractor: TrackInteractor): Vie
         _state.postValue(SearchStates.ClearHistory)
     }
 
-    fun setState(newState: SearchStates) {
-        _state.postValue(newState)
-    }
 
     fun searchTextClearClicked() {
         _state.postValue(SearchStates.ClearTracks)
@@ -36,25 +35,28 @@ class SearchActivityViewModel(private val trackInteractor: TrackInteractor): Vie
     fun searchTracks(text: String){
         if (text.isNotEmpty()) {
             _state.postValue(SearchStates.Loading)
-            trackInteractor.searchTracks(text
-            ) { foundTracks, errorMessage ->
-                when {
-                    errorMessage != null -> {
-                        _state.postValue(SearchStates.Error)
-                    }
+            viewModelScope.launch {
+                trackInteractor
+                    .searchTracks(text)
+                    .collect {pair ->
+                        processResult(pair.first, pair.second)
 
-                    foundTracks.isNullOrEmpty() -> {
-                        _state.postValue(SearchStates.Empty)
                     }
-
-                    else -> {
-                        _state.postValue(SearchStates.Tracks(tracks = foundTracks))
-                    }
-                }
             }
         }
     }
+    private fun processResult(foundTracks: List<DataSongs>?, errorMessage: Int?) {
+        val tracks = mutableListOf<DataSongs>()
+        if (foundTracks != null) {
+            tracks.addAll(foundTracks)
+        }
 
+        when {
+            errorMessage != null -> _state.postValue(SearchStates.Error)
+            tracks.isEmpty() -> _state.postValue(SearchStates.Empty)
+            else -> _state.postValue(SearchStates.Tracks(tracks))
+        }
+    }
 
     private fun readFromSharedPreferences(): ArrayList<DataSongs>{
         return trackInteractor.readFromSharedPreferences()

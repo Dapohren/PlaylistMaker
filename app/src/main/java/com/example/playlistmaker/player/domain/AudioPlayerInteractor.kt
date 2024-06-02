@@ -22,5 +22,9 @@ interface AudioPlayerInteractor {
 
     fun showCurrentPosition(): String
 
+    fun isPlaying(): Boolean
+
+
+
 
 }

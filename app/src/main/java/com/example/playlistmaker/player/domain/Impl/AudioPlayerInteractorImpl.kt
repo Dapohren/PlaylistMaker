@@ -46,4 +46,8 @@ class AudioPlayerInteractorImpl(private val audioPlayerRepository: AudioPlayerRe
 
 
     override fun showCurrentPosition(): String = audioPlayerRepository.showCurrentPosition()
+
+    override fun isPlaying(): Boolean{
+        return audioPlayerRepository.isPlaying()
+    }
 }
