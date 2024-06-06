@@ -90,6 +90,9 @@ class SearchFragment: Fragment() {
                     clearSearchText()
                     hideKeyboard()
                     hideTracks()
+                    binding.placeholderNothingF.visibility = View.GONE
+                    binding.placehText.visibility = View.GONE
+                    binding.ourRecycle.visibility = View.GONE
                 }
 
                 is SearchStates.History -> {
@@ -100,6 +103,7 @@ class SearchFragment: Fragment() {
                         layoutHistory.visibility = View.VISIBLE
                         hideNoInternetNothingFoundViews()
                         binding.cleanHistory.visibility = View.VISIBLE
+                        recycleView.visibility = View.GONE
                     } else {
                         searchHistory.visibility = View.GONE
                         binding.cleanHistory.visibility = View.GONE
@@ -130,6 +134,8 @@ class SearchFragment: Fragment() {
                 searchDebounce(changedText)
                 layoutHistory.visibility = View.GONE
                 searchHistory.visibility = View.GONE
+                binding.placeholderNothingF.visibility = View.GONE
+                binding.placehText.visibility = View.GONE
                 clearButtonVisibility(s?.isNotEmpty() ?: false)
                 viewModel.showHistoryTracksEditTextOnFocus(editText)
 

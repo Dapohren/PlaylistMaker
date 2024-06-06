@@ -113,6 +113,6 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInterac
     }
 
     companion object {
-        private const val DELAY = 1000L
+        private const val DELAY = 300L
     }
 }
