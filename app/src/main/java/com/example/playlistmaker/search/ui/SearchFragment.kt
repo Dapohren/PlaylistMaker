@@ -90,6 +90,7 @@ class SearchFragment: Fragment() {
                     clearSearchText()
                     hideKeyboard()
                     hideTracks()
+                    recycleView.visibility = View.GONE
                     binding.placeholderNothingF.visibility = View.GONE
                     binding.placehText.visibility = View.GONE
                     binding.ourRecycle.visibility = View.GONE
@@ -107,6 +108,7 @@ class SearchFragment: Fragment() {
                     } else {
                         searchHistory.visibility = View.GONE
                         binding.cleanHistory.visibility = View.GONE
+                        recycleView.visibility = View.GONE
                     }
                 }
 

@@ -44,6 +44,8 @@ class AudioPlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : AudioPla
     }
 
     override fun showCurrentPosition(): String {
+        if(!isPlaying()) return "00:00"
+
         return SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
     }
 
