@@ -33,7 +33,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding = ActivityAudioPlayerBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
+        //
         extras = intent.extras!!
         val chosenTrackJSON = intent.extras?.getString(CHOSEN_TRACK)
         chosenTrack = Gson().fromJson(chosenTrackJSON, DataSongs::class.java)
@@ -56,7 +56,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.genreName.text = chosenTrack.primaryGenreName
         binding.countryName.text = chosenTrack.country
         url = chosenTrack.previewUrl
-        viewModel.startPlayer(url)
+        viewModel.startPreparingPlayer(url)
 
         viewModel.state.observe(this){ state ->
             when (state){

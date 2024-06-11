@@ -1,47 +1,57 @@
 package com.example.playlistmaker.player.presentation
 
 
+import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.player.domain.AudioPlayerInteractor
+import com.example.playlistmaker.player.domain.Impl.AudioPlayerInteractorImpl
 import com.example.playlistmaker.player.domain.model.PlayerState
 import com.example.playlistmaker.player.domain.model.States
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor) : ViewModel() {
     private var isPlayerUsed = false
-    private val handler = Handler(Looper.getMainLooper())
-    private lateinit var timePassedRunnable: Runnable
-
+    private var isPlayerPrepared = false
     private val _state = MutableLiveData<AudioPlayerState>()
     val state: LiveData<AudioPlayerState> = _state
+    private var timerJob: Job? = null
+    private var mediaPlayer: MediaPlayer = MediaPlayer()
 
     init {
         _state.postValue(AudioPlayerState.NotReady)
 
     }
 
-    fun startPlayer(url: String) {
-        preparePlayer(url)
+    fun startPreparingPlayer(url: String){
+        if(!isPlayerPrepared)
+            preparePlayer(url)
     }
 
-
-    override fun onCleared() {
-        releasePlayer()
-    }
 
     fun playbackControl(){
         if(audioPlayerInteractor.getCurrentState() == States.STATE_PLAYING) {
             onPauseButtonClicked()
         }
         else{
-            handler.removeCallbacks(createTimePassedTask())
             onPlayButtonClicked()
         }
     }
+
+
+    override fun onCleared() {
+        super.onCleared()
+        releasePlayer()
+    }
+
+
 
     fun onPlayButtonClicked() {
         startPlayer()
@@ -52,30 +62,36 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInterac
         pausePlayer()
         _state.postValue(AudioPlayerState.Pause)
     }
-    private fun startPlayer() {
+    fun startPlayer() {
         audioPlayerInteractor.playAudio()
-        if (!isPlayerUsed) {
-            timePassedRunnable = createTimePassedTask()
-        }
-        handler.post(timePassedRunnable)
+        startTimer()
         isPlayerUsed = true
     }
 
+    private fun startTimer() {
+        timerJob = viewModelScope.launch {
+            while (audioPlayerInteractor.isPlaying()) {
+                delay(DELAY)
+                _state.postValue(AudioPlayerState.Play(showPlayerCurrentPosition()))
+            }
+        }
+    }
     fun pausePlayer() {
         _state.postValue(AudioPlayerState.Pause)
         audioPlayerInteractor.pauseAudio()
-        handlerRemoveCallbacks()
+        timerJob?.cancel()
     }
 
     private fun releasePlayer() {
         audioPlayerInteractor.unSubscribeOnPlayer()
         audioPlayerInteractor.releasePlayer()
-        handlerRemoveCallbacks()
+        timerJob?.cancel()
     }
 
     private fun preparePlayer(url: String) {
         audioPlayerInteractor.setDataSource(url)
         audioPlayerInteractor.prepareAudio()
+        isPlayerPrepared = true
 
         audioPlayerInteractor.subscribeOnPlayer { state ->
             when (state) {
@@ -86,7 +102,7 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInterac
 
                 PlayerState.COMPLETE -> {
                     _state.postValue(AudioPlayerState.OnStart)
-                    handlerRemoveCallbacks()
+                    timerJob?.cancel()
                 }
             }
         }
@@ -96,24 +112,7 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInterac
         return audioPlayerInteractor.showCurrentPosition()
     }
 
-    private fun createTimePassedTask(): Runnable {
-        return object : Runnable {
-            override fun run() {
-                _state.postValue(AudioPlayerState.Play(showPlayerCurrentPosition()))
-                handler.postDelayed(this, DELAY)
-            }
-        }
-    }
-
-
-
-    private fun handlerRemoveCallbacks() {
-        if (isPlayerUsed) {
-            handler.removeCallbacks(timePassedRunnable)
-        }
-    }
-
     companion object {
-        private const val DELAY = 1000L
+        private const val DELAY = 300L
     }
 }

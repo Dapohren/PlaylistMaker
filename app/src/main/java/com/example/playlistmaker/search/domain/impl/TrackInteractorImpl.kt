@@ -9,21 +9,24 @@ import com.example.playlistmaker.search.presentation.Resource
 import com.example.playlistmaker.search.ui.SONGS_LIST_KEY
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+
 import java.util.concurrent.Executors
 
 class TrackInteractorImpl(private val repository: TrackRepository,
                           private val sharedPreferences: SharedPreferences,
                           ) : TrackInteractor {
 
-    private val executor = Executors.newCachedThreadPool()
-
-
-
-    override fun searchTracks(expression: String, consumer: TrackInteractor.TracksConsumer) {
-        executor.execute {
-            when(val resource = repository.searchTracks(expression)) {
-                is Resource.Success -> { consumer.consume(resource.data, null) }
-                is Resource.Error -> { consumer.consume(null, resource.message) }
+    override fun searchTracks(expression: String) : Flow<Pair<List<DataSongs>?, Int?>> {
+        return repository.searchTracks(expression).map { result ->
+            when(result) {
+                is Resource.Success -> {
+                    Pair(result.data, null)
+                }
+                is Resource.Error -> {
+                    Pair(null, result.message)
+                }
             }
         }
     }
