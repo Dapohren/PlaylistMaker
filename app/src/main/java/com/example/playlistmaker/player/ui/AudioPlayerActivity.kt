@@ -9,8 +9,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityAudioPlayerBinding
+import com.example.playlistmaker.media.domain.models.FavTracksModel
 import com.example.playlistmaker.player.presentation.AudioPlayerState
 import com.example.playlistmaker.player.presentation.AudioPlayerViewModel
+import com.example.playlistmaker.player.presentation.FavouriteState
 import com.example.playlistmaker.search.ui.CHOSEN_TRACK
 import com.example.playlistmaker.search.domain.models.DataSongs
 import com.google.gson.Gson
@@ -57,7 +59,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.countryName.text = chosenTrack.country
         url = chosenTrack.previewUrl
         viewModel.startPreparingPlayer(url)
-
+        viewModel.isFavouriteClick(chosenTrack)
         viewModel.state.observe(this){ state ->
             when (state){
                 AudioPlayerState.NotReady -> playButtonAvailability(false)
@@ -77,6 +79,22 @@ class AudioPlayerActivity : AppCompatActivity() {
                 else -> {}
             }
 
+        }
+        viewModel.favourites.observe(this) {state ->
+            when(state) {
+                FavouriteState.Liked -> {
+                    binding.buttonLike.setImageResource(R.drawable.liked)
+                    binding.buttonLike.setOnClickListener {
+                        viewModel.deleteFromFav(chosenTrack)
+                    }
+                }
+                FavouriteState.NotLiked -> {
+                    binding.buttonLike.setImageResource(R.drawable.like)
+                    binding.buttonLike.setOnClickListener {
+                        viewModel.addToFavourite(chosenTrack)
+                    }
+                }
+            }
         }
         binding.backButton.setOnClickListener {
             finish()

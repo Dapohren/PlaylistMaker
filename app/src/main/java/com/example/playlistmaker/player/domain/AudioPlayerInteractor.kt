@@ -1,6 +1,7 @@
 package com.example.playlistmaker.player.domain
 
 import com.example.playlistmaker.player.domain.model.States
+import com.example.playlistmaker.player.presentation.FavouriteState
 
 interface AudioPlayerInteractor {
 
@@ -14,6 +15,8 @@ interface AudioPlayerInteractor {
 
     fun getCurrentState() : States
 
+    fun getCurrentFavState() : FavouriteState
+
     fun subscribeOnPlayer(listener: AudioPlayerStateListener)
 
     fun unSubscribeOnPlayer()
@@ -23,8 +26,6 @@ interface AudioPlayerInteractor {
     fun showCurrentPosition(): String
 
     fun isPlaying(): Boolean
-
-
 
 
 }

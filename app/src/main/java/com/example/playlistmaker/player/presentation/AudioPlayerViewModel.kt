@@ -2,28 +2,73 @@ package com.example.playlistmaker.player.presentation
 
 
 import android.media.MediaPlayer
-import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.playlistmaker.media.domain.db.FavTracksInteractor
+import com.example.playlistmaker.media.domain.models.FavTracksModel
 import com.example.playlistmaker.player.domain.AudioPlayerInteractor
 import com.example.playlistmaker.player.domain.Impl.AudioPlayerInteractorImpl
 import com.example.playlistmaker.player.domain.model.PlayerState
 import com.example.playlistmaker.player.domain.model.States
+import com.example.playlistmaker.search.domain.models.DataSongs
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
-class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor) : ViewModel() {
+class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor, private val favTracksInteractor: FavTracksInteractor) : ViewModel() {
     private var isPlayerUsed = false
     private var isPlayerPrepared = false
     private val _state = MutableLiveData<AudioPlayerState>()
     val state: LiveData<AudioPlayerState> = _state
     private var timerJob: Job? = null
     private var mediaPlayer: MediaPlayer = MediaPlayer()
+
+
+    private val _favourites = MutableLiveData<FavouriteState>()
+    val favourites: LiveData<FavouriteState> = _favourites
+    private lateinit var favouriteTracksId: List<Long>
+
+
+    fun isFavouriteClick(trackId: DataSongs) {
+        viewModelScope.launch{
+            withContext(Dispatchers.IO) {
+                favTracksInteractor
+                    .getTrackId()
+                    .collect(){
+                        favouriteTracksId = it
+                    }
+            }
+            if(favouriteTracksId.contains(trackId.trackId)) {
+                _favourites.postValue(FavouriteState.Liked)
+            } else {
+                _favourites.postValue(FavouriteState.NotLiked)
+            }
+        }
+    }
+
+    fun addToFavourite(trackId: DataSongs) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                favTracksInteractor.addTracksToFav(trackId)
+            }
+        }
+        _favourites.postValue(FavouriteState.Liked)
+    }
+
+    fun deleteFromFav(trackId: DataSongs) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                favTracksInteractor.deleteTrackFromFav(trackId)
+            }
+        }
+        _favourites.postValue(FavouriteState.NotLiked)
+    }
 
     init {
         _state.postValue(AudioPlayerState.NotReady)
@@ -44,6 +89,8 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInterac
             onPlayButtonClicked()
         }
     }
+
+
 
 
     override fun onCleared() {

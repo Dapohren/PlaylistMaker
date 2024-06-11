@@ -3,6 +3,7 @@ package com.example.playlistmaker.app
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmaker.media.di.dataModule
 import com.example.playlistmaker.media.di.mediaViewModelModule
 import com.example.playlistmaker.player.di.audioPlayerDataModule
 import com.example.playlistmaker.player.di.audioPlayerDomainModule
@@ -17,6 +18,7 @@ import com.example.playlistmaker.settings.di.domain.settingsDomainModule
 import com.example.playlistmaker.settings.di.view.settingsViewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import sharedPrefInteractorModule
 
 class App : Application() {
     private lateinit var sharedPref: SharedPreferences
@@ -33,7 +35,7 @@ class App : Application() {
                 searchDataModule, searchRepositoryModule, searchDomainModule, searchViewModelModule,
                 audioPlayerDataModule, audioPlayerDomainModule, audioPlayerViewModelModule,
                 settingsDataModule, settingsRepositoryModule, settingsDomainModule, settingsViewModelModule,
-                mediaViewModelModule
+                mediaViewModelModule, dataModule, sharedPrefInteractorModule
             )
         }
 

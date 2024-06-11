@@ -111,8 +111,11 @@ class SearchFragment: Fragment() {
                         recycleView.visibility = View.GONE
                     }
                 }
-
-                SearchStates.ClearHistory -> clearSearchHistory()
+                else -> {
+                    searchHistory.visibility = View.GONE
+                    binding.cleanHistory.visibility = View.GONE
+                    recycleView.visibility = View.GONE
+                }
             }
         }
         binding.refButton.setOnClickListener {

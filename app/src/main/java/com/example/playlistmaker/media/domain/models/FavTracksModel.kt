@@ -1,7 +1,7 @@
-package com.example.playlistmaker.search.domain.models
+package com.example.playlistmaker.media.domain.models
 
-data class DataSongs(
-    val trackId: Long,
+data class FavTracksModel (
+    val id: Long,
     val trackName: String, // Название композиции
     val artistName: String, // Имя исполнителя
     val trackTimeMillis: Long, // Продолжительность трека
@@ -10,5 +10,5 @@ data class DataSongs(
     val releaseDate: String,
     val primaryGenreName: String,
     val country: String,
-    val previewUrl: String
+    val previewUrl: String,
 )
