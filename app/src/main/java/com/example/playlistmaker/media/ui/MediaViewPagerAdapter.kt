@@ -15,8 +15,8 @@ class MediaViewPagerAdapter (fragmentManager: FragmentManager, lifecycle: Lifecy
 
     override fun createFragment(position: Int): Fragment {
         return when(position) {
-            0 -> FavoritesSongsFragment.newInstance(text = (R.string.table_favorite_song_text).toString())
-            else -> PlayListFragment.newInstance(text = (R.string.table_playlist_text).toString())
+            0 -> FavoritesSongsFragment()
+            else -> PlayListFragment()
         }
     }
 }

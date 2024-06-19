@@ -111,8 +111,11 @@ class SearchFragment: Fragment() {
                         recycleView.visibility = View.GONE
                     }
                 }
-
-                SearchStates.ClearHistory -> clearSearchHistory()
+                else -> {
+                    searchHistory.visibility = View.GONE
+                    binding.cleanHistory.visibility = View.GONE
+                    recycleView.visibility = View.GONE
+                }
             }
         }
         binding.refButton.setOnClickListener {
@@ -231,6 +234,7 @@ private fun showTracksError(){
 private fun clearSearchText() {
     editText.setText("")
 }
+
 private fun hideKeyboard() {
     val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
     inputMethodManager?.hideSoftInputFromWindow(requireActivity().currentFocus!!.windowToken, 0)
@@ -280,11 +284,7 @@ override fun onSaveInstanceState(outState: Bundle) {
     super.onSaveInstanceState(outState)
     outState.putString(SEARCH, textString)
 }
-/*override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-    super.onRestoreInstanceState(savedInstanceState)
-    textString = savedInstanceState.getString(SEARCH).toString()
-    editText.setText(textString)
-}*/
+
 
 
 

@@ -25,6 +25,17 @@
         android:text="@string/empty_fav"
         android:textSize="@dimen/padding_top_settings_button"
         android:paddingStart="24dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/favTracksList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:itemCount="11"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

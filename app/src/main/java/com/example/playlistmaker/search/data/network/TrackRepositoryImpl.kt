@@ -24,6 +24,7 @@ class TrackRepositoryImpl (private val networkClient: NetworkClient) : TrackRepo
                     val data = results.map {
 
                         DataSongs(
+                            it.trackId,
                             it.trackName,
                             it.artistName,
                             it.trackTimeMillis,

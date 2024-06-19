@@ -6,6 +6,6 @@ import org.koin.dsl.module
 
 val audioPlayerViewModelModule = module {
     viewModel {
-        AudioPlayerViewModel(get())
+        AudioPlayerViewModel(get(), get())
     }
 }

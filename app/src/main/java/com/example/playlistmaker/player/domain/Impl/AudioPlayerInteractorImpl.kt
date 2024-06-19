@@ -4,15 +4,19 @@ import    com.example.playlistmaker.player.domain.AudioPlayerInteractor
 import com.example.playlistmaker.player.domain.AudioPlayerStateListener
 import com.example.playlistmaker.player.domain.api.AudioPlayerRepository
 import com.example.playlistmaker.player.domain.model.States
+import com.example.playlistmaker.player.presentation.FavouriteState
 
 class AudioPlayerInteractorImpl(private val audioPlayerRepository: AudioPlayerRepository) : AudioPlayerInteractor {
 
     private var state = States.STATE_DEFAULT
+    private var favState = FavouriteState.NotLiked
     override fun prepareAudio() {
         audioPlayerRepository.prepareAudio()
         state = States.STATE_PREPARED
 
     }
+
+    override fun getCurrentFavState(): FavouriteState = favState
 
     override fun playAudio() {
         audioPlayerRepository.playAudio()

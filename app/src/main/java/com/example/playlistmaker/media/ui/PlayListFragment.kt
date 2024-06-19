@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.playlistmaker.R
+import com.example.playlistmaker.media.domain.models.FavTracksModel
 import com.example.playlistmaker.media.presentation.PlayListViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
