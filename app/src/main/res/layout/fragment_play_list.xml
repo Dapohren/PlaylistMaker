@@ -5,19 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
-    tools:context=".player.ui.AudioPlayerActivity">
+    >
 
     <Button
-        android:layout_marginBottom="40dp"
-        android:id="@+id/button_new_playlist"
+        android:layout_marginTop="5dp"
+        android:textFontWeight="500"
+        android:id="@+id/buttonNewPlaylist"
         android:text="@string/button_new_playlist"
         android:backgroundTint="?attr/colorOnPrimary"
         android:textColor="?attr/backgroundColor"
         android:fontFamily="@font/ys_display_medium"
         android:textSize="@dimen/text_size_update"
         android:padding="@dimen/icon_padding_big_button"
-        app:layout_constraintBottom_toTopOf="@+id/empty_list_image"
+        app:layout_constraintTop_toTopOf="parent"
         android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/emptyImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
@@ -25,22 +27,34 @@
 
     <ImageView
         app:layout_constraintTop_toTopOf="parent"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/empty_list_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="110dp"
+        android:id="@+id/emptyImage"
         android:gravity="center"
         style="@style/NothingFound"
         android:contentDescription="@string/nothing_found"/>
     <TextView
-        app:layout_constraintTop_toBottomOf="@+id/empty_list_image"
-        android:id="@+id/empty_list_text"
+        app:layout_constraintTop_toBottomOf="@+id/emptyImage"
+        android:id="@+id/emptyText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/ys_display_medium"
         android:text="@string/empty_playlist"
         android:textSize="@dimen/padding_top_settings_button"
         android:paddingStart="24dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewPlaylists"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="85dp"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

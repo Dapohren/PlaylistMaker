@@ -75,4 +75,7 @@
         <item name="itemTextColor">@color/bottom_nav_color</item>
         <item name="itemIconTint">@color/bottom_nav_color</item>
     </style>
+    <style name="WhiteOrBlack">
+        <item name="backgroundColor">?attr/colorOnPrimary</item>
+    </style>
 </resources>

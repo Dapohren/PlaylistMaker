@@ -15,4 +15,5 @@
     <dimen name="top_player">7dp</dimen>
     <dimen name="text_size_player">13sp</dimen>
     <dimen name="mergin_button">16dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
 </resources>
