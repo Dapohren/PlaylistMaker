@@ -19,7 +19,6 @@
         android:padding="@dimen/icon_padding_big_button"
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/emptyImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
@@ -34,12 +33,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="110dp"
         android:id="@+id/emptyImage"
+
         android:gravity="center"
         style="@style/NothingFound"
         android:contentDescription="@string/nothing_found"/>
     <TextView
         app:layout_constraintTop_toBottomOf="@+id/emptyImage"
         android:id="@+id/emptyText"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
