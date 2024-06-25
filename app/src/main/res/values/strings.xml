@@ -52,4 +52,13 @@
     <string name="no_media_selected">No media selected</string>
     <string name="need_permission">Для загрузки фото требуется разрешение</string>
     <string name="Newalbum">myalbum</string>
+    <string name="no_tracks_in_playlist">В плейлисте нет треков</string>
+    <string name="delete_track">Хотите удалить трек?</string>
+    <string name="yes">ДА</string>
+    <string name="no">НЕТ</string>
+    <string name="delete_playlist">"Хотите удалить плейлист "</string>
+    <string name="no_tracks">0 минут</string>
+    <string name="no_songs">0 треков</string>
+    <string name="save">Сохранить</string>
+
 </resources>

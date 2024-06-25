@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
@@ -12,6 +13,7 @@ import com.example.playlistmaker.databinding.FragmentPlayListBinding
 import com.example.playlistmaker.media.presentation.playlist.PlayListViewModel
 import com.example.playlistmaker.media.presentation.playlist.PlaylistAdapter
 import com.example.playlistmaker.media.presentation.playlist.PlaylistState
+import com.example.playlistmaker.playlist.ui.PlaylistInformationFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayListFragment : Fragment() {
@@ -38,6 +40,13 @@ class PlayListFragment : Fragment() {
         binding.recyclerViewPlaylists.layoutManager = GridLayoutManager(requireContext(), 2)
         viewModel.getPlaylists()
 
+        playListsAdapter.setOnTrackClickListener(object : PlaylistAdapter.onTrackClickListener{
+            override fun onClicked(position: Int) {
+                val chosenPlaylist = playListsAdapter.playlist[position]
+                findNavController().navigate(R.id.action_mediaLibraryFragment_to_playlistInformationFragment, bundleOf(PlaylistInformationFragment.PLAYLIST_ID to chosenPlaylist.playlistId))
+            }
+        })
+
         viewModel.state.observe(viewLifecycleOwner){ state ->
             when(state){
                 is PlaylistState.NotEmpty -> {
@@ -56,6 +65,7 @@ class PlayListFragment : Fragment() {
                 }
             }
         }
+
 
         binding.buttonNewPlaylist.visibility = View.VISIBLE
 

@@ -21,6 +21,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -42,17 +44,17 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 
-class NewPlaylistFragment : Fragment() {
+open class NewPlaylistFragment : Fragment() {
     val viewModel: NewPlaylistViewModel by viewModel()
     private var _binding: FragmentNewPlaylistBinding? = null
-    private val binding get() = _binding!!
-    private var image: Uri? = null
-    private var file: String? = null
+    val binding get() = _binding!!
+    var image: Uri? = null
+    var file: String? = null
     private var bottomNavigationView: BottomNavigationView? = null
     private var bottomNavigationViewLine: View? = null
     private lateinit var dialog: MaterialAlertDialogBuilder
-    private lateinit var pickMedia : ActivityResultLauncher<PickVisualMediaRequest>
-    private val requester = PermissionRequester.instance()
+    lateinit var pickMedia : ActivityResultLauncher<PickVisualMediaRequest>
+    val requester = PermissionRequester.instance()
 
 
     override fun onCreateView(
@@ -66,48 +68,12 @@ class NewPlaylistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        val simpleTextWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.isNullOrEmpty()) {
-                    binding.buttonCreate.isEnabled = false
-                    binding.playlistName.isActivated = false
-                    binding.nameActiveText.visibility = View.GONE
-                } else {
-                    binding.buttonCreate.isEnabled = true
-                    binding.playlistName.isActivated = true
-                    binding.nameActiveText.visibility = View.VISIBLE
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
+        binding.playlistName.doOnTextChanged { text, _, _, _ ->
+            binding.buttonCreate.isEnabled = text?.toString().orEmpty().isNotBlank()
         }
-        binding.playlistName.addTextChangedListener(simpleTextWatcher)
-
-
-        val simpleTextWatcherDescription = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.isNullOrEmpty()) {
-                    binding.playlistDescription.isActivated = false
-                    binding.activeDescription.visibility = View.GONE
-                } else {
-                    binding.playlistDescription.isActivated = true
-                    binding.activeDescription.visibility = View.VISIBLE
-                }
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
+        binding.playlistDescription.doOnTextChanged { text, _, _, _ ->
+            text?.toString().orEmpty()
         }
-        binding.playlistDescription.addTextChangedListener(simpleTextWatcherDescription)
 
 
         dialog = MaterialAlertDialogBuilder(requireContext())
@@ -214,7 +180,7 @@ class NewPlaylistFragment : Fragment() {
         super.onResume()
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (image != null || binding.playlistName.text.isNotEmpty() || binding.playlistDescription.text.isNotEmpty())
+                if (image != null || binding.playlistName.text!!.isNotEmpty() || binding.playlistDescription.text!!.isNotEmpty())
                     dialog.show()
                 else
                     navigateBackTo()
@@ -239,7 +205,7 @@ class NewPlaylistFragment : Fragment() {
     }
 
     fun backButton() {
-        if(image != null || binding.playlistName.text.isNotEmpty() || binding.playlistDescription.text.isNotEmpty())
+        if(image != null || binding.playlistName.text!!.isNotEmpty() || binding.playlistDescription.text!!.isNotEmpty())
             dialog.show()
         else
             navigateBackTo()
@@ -260,7 +226,7 @@ class NewPlaylistFragment : Fragment() {
         }
     }
 
-    private fun saveImageToPrivateStorage(uri: Uri) {
+    fun saveImageToPrivateStorage(uri: Uri) {
         val filePath = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), requireActivity().getString(R.string.Newalbum))
         if (!filePath.exists()){
             filePath.mkdirs()

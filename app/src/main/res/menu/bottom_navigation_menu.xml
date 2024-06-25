@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/searchFragment"
-        android:icon="@drawable/light_mode"
+        android:icon="@drawable/search"
         android:title="@string/search"/>
 
     <item

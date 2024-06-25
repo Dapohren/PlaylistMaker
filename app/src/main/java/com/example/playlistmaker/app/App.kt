@@ -8,6 +8,9 @@ import com.example.playlistmaker.media.di.mediaViewModelModule
 import com.example.playlistmaker.player.di.audioPlayerDataModule
 import com.example.playlistmaker.player.di.audioPlayerDomainModule
 import com.example.playlistmaker.player.di.audioPlayerViewModelModule
+import com.example.playlistmaker.playlist.di.dataInfoModule
+import com.example.playlistmaker.playlist.di.domainInfoModule
+import com.example.playlistmaker.playlist.di.viewModelInfoModule
 import com.example.playlistmaker.search.di.searchDataModule
 import com.example.playlistmaker.search.di.searchDomainModule
 import com.example.playlistmaker.search.di.searchRepositoryModule
@@ -37,7 +40,7 @@ class App : Application() {
                 searchDataModule, searchRepositoryModule, searchDomainModule, searchViewModelModule,
                 audioPlayerDataModule, audioPlayerDomainModule, audioPlayerViewModelModule,
                 settingsDataModule, settingsRepositoryModule, settingsDomainModule, settingsViewModelModule,
-                mediaViewModelModule, dataModule, sharedPrefInteractorModule
+                mediaViewModelModule, dataModule, sharedPrefInteractorModule, dataInfoModule, domainInfoModule, viewModelInfoModule
             )
         }
 

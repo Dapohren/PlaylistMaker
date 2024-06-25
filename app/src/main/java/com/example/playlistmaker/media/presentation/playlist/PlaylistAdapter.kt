@@ -11,10 +11,18 @@ import com.example.playlistmaker.media.presentation.FavouriteSongsAdapter
 
 class PlaylistAdapter() : RecyclerView.Adapter<PlaylistViewHolder>() {
     var playlist = emptyList<PlaylistModel>()
+    private var trackListener : onTrackClickListener? = null
+    interface onTrackClickListener {
+        fun onClicked(position: Int)
+    }
+
+    fun setOnTrackClickListener(listener: onTrackClickListener){
+        trackListener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_media_view, parent, false)
-        return (PlaylistViewHolder(view))
+        return (PlaylistViewHolder(view, trackListener))
     }
 
     override fun getItemCount(): Int {

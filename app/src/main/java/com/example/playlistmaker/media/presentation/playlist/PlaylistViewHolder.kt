@@ -10,14 +10,21 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.media.domain.models.FavTracksModel
 import com.example.playlistmaker.media.domain.models.PlaylistModel
 import com.example.playlistmaker.media.presentation.FavouriteSongsAdapter
+import com.example.playlistmaker.search.presentation.SongsAdapter
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlaylistViewHolder(itemView: View) :
+class PlaylistViewHolder(itemView: View, listener: PlaylistAdapter.onTrackClickListener?) :
     RecyclerView.ViewHolder(itemView) {
     private var playlistImage: ImageView = itemView.findViewById(R.id.playlist_photo)
     private var playlistName: TextView = itemView.findViewById(R.id.playlist_name)
     private var numberTracks: TextView = itemView.findViewById(R.id.tracks_count)
+
+    init{
+        itemView.setOnClickListener {
+            listener?.onClicked(adapterPosition)
+        }
+    }
 
 
 

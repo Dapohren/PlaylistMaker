@@ -77,5 +77,6 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     implementation ("com.markodevcic:peko:3.0.2")
+    implementation ("com.google.android.material:material:1.3.0-alpha03")
 
 }
