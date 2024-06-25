@@ -16,6 +16,7 @@ import com.example.playlistmaker.settings.di.data.settingsDataModule
 import com.example.playlistmaker.settings.di.data.settingsRepositoryModule
 import com.example.playlistmaker.settings.di.domain.settingsDomainModule
 import com.example.playlistmaker.settings.di.view.settingsViewModelModule
+import com.markodevcic.peko.PermissionRequester
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import sharedPrefInteractorModule
@@ -25,6 +26,7 @@ class App : Application() {
     private var darkTheme = false
     override fun onCreate() {
         super.onCreate()
+        PermissionRequester.initialize(applicationContext)
         sharedPref = getSharedPreferences(PREFERENCES, MODE_PRIVATE)
         darkTheme = sharedPref.getBoolean(KEY, false)
         switchTheme(darkTheme)

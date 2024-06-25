@@ -33,5 +33,23 @@
     <string name="table_playlist_text">Плейлисты</string>
     <string name="empty_playlist">Вы не создали\n\ни одного плейлиста</string>
     <string name="clear_history">Очистить историю</string>
+    <string name="new_playlist_text">Новый плейлист</string>
     <string name="no_conection">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="new_playlist_photo">Шаблон для фото</string>
+    <string name="playlist_name">Название*</string>
+    <string name="playlist_description">Описание</string>
+    <string name="create">Создать</string>
+    <string name="add_to_playlist">Добавить в плейлист</string>
+    <string name="new_playlist">Новый плейлист</string>
+    <string name="image_playlist">Картинка для плейлиста</string>
+    <string name="finish_creating">Завершить создание плейлиста?</string>
+    <string name="all_will_be_lost">Все несохраненные данные будут потеряны</string>
+    <string name="cancel">Отмена</string>
+    <string name="finish">Завершить</string>
+    <string name="photo_pick">PhotoPicker</string>
+    <string name="no_media_selected">No media selected</string>
+    <string name="need_permission">Для загрузки фото требуется разрешение</string>
+    <string name="Newalbum">myalbum</string>
 </resources>

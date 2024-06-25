@@ -8,7 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.domain.db.FavTracksInteractor
+import com.example.playlistmaker.media.domain.db.playlist.PlaylistInteractor
 import com.example.playlistmaker.media.domain.models.FavTracksModel
+import com.example.playlistmaker.media.domain.models.PlaylistModel
+import com.example.playlistmaker.media.presentation.playlist.PlaylistState
 import com.example.playlistmaker.player.domain.AudioPlayerInteractor
 import com.example.playlistmaker.player.domain.Impl.AudioPlayerInteractorImpl
 import com.example.playlistmaker.player.domain.model.PlayerState
@@ -21,7 +24,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor, private val favTracksInteractor: FavTracksInteractor) : ViewModel() {
+class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor, private val favTracksInteractor: FavTracksInteractor, private val playlistInteractor: PlaylistInteractor) : ViewModel() {
     private var isPlayerUsed = false
     private var isPlayerPrepared = false
     private val _state = MutableLiveData<AudioPlayerState>()
@@ -33,6 +36,12 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInterac
     private val _favourites = MutableLiveData<FavouriteState>()
     val favourites: LiveData<FavouriteState> = _favourites
     private lateinit var favouriteTracksId: List<Long>
+
+    private val _audioPlayerPlaylistState = MutableLiveData<AudioPlayerPlaylistState>()
+    val audioPlayerPlaylistState: LiveData<AudioPlayerPlaylistState> = _audioPlayerPlaylistState
+
+    private val _playlistState = MutableLiveData<PlaylistState>()
+    val playlistState: LiveData<PlaylistState> = _playlistState
 
 
     fun isFavouriteClick(trackId: DataSongs) {
@@ -158,6 +167,37 @@ class AudioPlayerViewModel(private val audioPlayerInteractor: AudioPlayerInterac
     fun showPlayerCurrentPosition(): String {
         return audioPlayerInteractor.showCurrentPosition()
     }
+    fun getPlaylists(){
+        viewModelScope.launch{
+            withContext(Dispatchers.IO){
+                playlistInteractor
+                    .getPlaylists()
+                    .collect {
+                        if(it.isEmpty())
+                            _playlistState.postValue(PlaylistState.Empty)
+                        else
+                            _playlistState.postValue(PlaylistState.NotEmpty(it))
+                    }
+            }
+        }
+    }
+
+    fun stateTrackInPlaylist(chosenTrack: DataSongs, chosenPlaylist: PlaylistModel){
+        if(chosenPlaylist.addedTracksId.contains(chosenTrack.trackId))
+            _audioPlayerPlaylistState.postValue(AudioPlayerPlaylistState.InPlaylist(chosenPlaylist.playlistName))
+        else
+            _audioPlayerPlaylistState.postValue(AudioPlayerPlaylistState.NotInPlaylist(chosenTrack, chosenPlaylist))
+    }
+
+    fun addTrackToPlaylist(track: DataSongs, chosenPlaylist: PlaylistModel){
+        viewModelScope.launch{
+            withContext(Dispatchers.IO){
+                playlistInteractor.putTrackInPlaylist(track, chosenPlaylist)
+                _audioPlayerPlaylistState.postValue(AudioPlayerPlaylistState.AddedToPlaylist(chosenPlaylist.playlistName))
+            }
+        }
+    }
+
 
     companion object {
         private const val DELAY = 300L
