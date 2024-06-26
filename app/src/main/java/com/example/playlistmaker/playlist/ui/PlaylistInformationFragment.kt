@@ -136,10 +136,12 @@ class PlaylistInformationFragment : Fragment() {
         binding.buttonShare.setOnClickListener {
             sharePlaylist()
         }
+
         binding.three.setOnClickListener {
             openEditorBottomSheet()
             initBottomSheetMenu()
         }
+
         songAdapter.setOnTrackClickListener(object : SongsAdapter.onTrackClickListener {
             override fun onClicked(position: Int) {
                 if (clickDebounce()) {
@@ -156,7 +158,6 @@ class PlaylistInformationFragment : Fragment() {
             }
 
         })
-
 
     }
     override fun onDestroyView() {

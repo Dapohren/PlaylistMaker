@@ -7,6 +7,8 @@ import com.example.playlistmaker.media.data.db.TracksForPlaylistEntity
 import com.example.playlistmaker.media.domain.models.PlaylistModel
 import com.example.playlistmaker.playlist.domain.PlaylistInformationRepository
 import com.example.playlistmaker.search.domain.models.DataSongs
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class PlaylistInformationRepositoryImpl(private val appDatabase: TrackDatabase,
                                         private val playlistDbConverter: PlaylistDbConverter) : PlaylistInformationRepository{
@@ -23,14 +25,39 @@ class PlaylistInformationRepositoryImpl(private val appDatabase: TrackDatabase,
 
         return convertFromPlaylistEntity(appDatabase.playlistDao().getPlaylistEntity(playlistId))
     }
+    override fun getPlaylists(): Flow<List<PlaylistModel>> {
+        return appDatabase.playlistDao().getPlaylists().map { playlists -> convertFromListPlaylistEntityToListPlaylist(playlists) }
+    }
 
     override suspend fun deleteTrackFromPlaylist(track: DataSongs, playlist: PlaylistModel) {
-        val track = convertToTrackToPlaylistEntity(track)
-        appDatabase.tracksForPlaylistDao().deleteTrackEntity(track)
+        playlist.addedTracksId.remove(track.trackId)
+        playlist.addedTracksNumber--
+        if(playlist.addedTracksNumber <= 0) {
+            playlist.addedTracksNumber = 0
+        }
+        val newTracksId = playlist.addedTracksId.toString()
+        val addedTracksNumber = playlist.addedTracksNumber
+        val playlistId = playlist.playlistId
+        appDatabase.playlistDao().changeTracksList(newTracksId, playlistId!!, addedTracksNumber)
+
+        getPlaylists().collect{
+            checkTrackInPlaylists(track, it)
+        }
     }
 
     override suspend fun getTracksInPlaylists(): List<DataSongs> {
         return appDatabase.tracksForPlaylistDao().getTracksInPlaylists().map { tracks -> convertToDataSongs(tracks) }
+    }
+    private fun checkTrackInPlaylists(track: DataSongs, playlists: List<PlaylistModel>){
+        var check = 0
+        playlists.forEach {
+            if(it.addedTracksId.contains(track.trackId))
+                check++
+        }
+        if(check == 0){
+            val chosenTrackEntity = convertFromTrackDomainMediaLibraryToTrackToPlaylistEntity(track)
+            appDatabase.tracksForPlaylistDao().deleteTrackEntity(chosenTrackEntity)
+        }
     }
 
     override suspend fun getTracksInPlaylistWithId(addedTracksId: ArrayList<Long>): ArrayList<DataSongs> {
@@ -42,8 +69,14 @@ class PlaylistInformationRepositoryImpl(private val appDatabase: TrackDatabase,
     private fun convertToTrackToPlaylistEntity(track: DataSongs): TracksForPlaylistEntity {
         return playlistDbConverter.map(track)
     }
+    private fun convertFromTrackDomainMediaLibraryToTrackToPlaylistEntity(track: DataSongs): TracksForPlaylistEntity{
+        return playlistDbConverter.map(track)
+    }
     private fun convertToDataSongs(track: TracksForPlaylistEntity): DataSongs {
         return playlistDbConverter.map(track)
+    }
+    private fun convertFromListPlaylistEntityToListPlaylist(playlists: List<PlaylistEntity>): List<PlaylistModel>{
+        return playlists.map{ playlist -> playlistDbConverter.map(playlist)}
     }
     private fun convertFromPlaylistEntity(playlists: PlaylistEntity): PlaylistModel{
         return playlistDbConverter.map(playlists)

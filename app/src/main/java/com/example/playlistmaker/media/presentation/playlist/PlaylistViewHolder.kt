@@ -20,6 +20,7 @@ class PlaylistViewHolder(itemView: View, listener: PlaylistAdapter.onTrackClickL
     private var playlistName: TextView = itemView.findViewById(R.id.playlist_name)
     private var numberTracks: TextView = itemView.findViewById(R.id.tracks_count)
 
+
     init{
         itemView.setOnClickListener {
             listener?.onClicked(adapterPosition)
@@ -31,8 +32,9 @@ class PlaylistViewHolder(itemView: View, listener: PlaylistAdapter.onTrackClickL
     fun bind(item: PlaylistModel) {
         playlistName.text = item.playlistName
         val trackCount = "${item.addedTracksNumber} ${itemCounter(item.addedTracksNumber)}"
+        
+        val trackWordEnding = itemView.resources.getQuantityString(R.plurals.plurals_1, item.addedTracksNumber, item.addedTracksNumber);
         numberTracks.text = trackCount
-
         val radius = itemView.resources.getDimensionPixelSize(R.dimen.dp_8)
         Glide.with(itemView)
             .load(item.playlistImage)

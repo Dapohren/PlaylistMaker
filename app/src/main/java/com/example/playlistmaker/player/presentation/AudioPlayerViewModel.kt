@@ -16,6 +16,7 @@ import com.example.playlistmaker.player.domain.AudioPlayerInteractor
 import com.example.playlistmaker.player.domain.Impl.AudioPlayerInteractorImpl
 import com.example.playlistmaker.player.domain.model.PlayerState
 import com.example.playlistmaker.player.domain.model.States
+import com.example.playlistmaker.playlist.domain.PlaylistInformationInteractor
 import com.example.playlistmaker.search.domain.models.DataSongs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

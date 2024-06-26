@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,6 +14,7 @@ import com.example.playlistmaker.databinding.FragmentPlayListBinding
 import com.example.playlistmaker.media.presentation.playlist.PlayListViewModel
 import com.example.playlistmaker.media.presentation.playlist.PlaylistAdapter
 import com.example.playlistmaker.media.presentation.playlist.PlaylistState
+import com.example.playlistmaker.media.presentation.playlist.PlaylistViewHolder
 import com.example.playlistmaker.playlist.ui.PlaylistInformationFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -20,6 +22,7 @@ class PlayListFragment : Fragment() {
 
 
     private val playListsAdapter: PlaylistAdapter by lazy { PlaylistAdapter() }
+    private lateinit var count: TextView
 
     private var _binding: FragmentPlayListBinding? = null
     private val binding get() = _binding!!
@@ -56,6 +59,7 @@ class PlayListFragment : Fragment() {
                     binding.emptyImage.visibility = View.GONE
                     binding.emptyText.visibility = View.GONE
                     binding.buttonNewPlaylist.visibility = View.VISIBLE
+
                 }
                 PlaylistState.Empty -> {
                     binding.recyclerViewPlaylists.visibility = View.GONE

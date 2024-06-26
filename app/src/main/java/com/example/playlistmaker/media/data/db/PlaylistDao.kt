@@ -28,6 +28,4 @@ interface PlaylistDao {
     @Query("UPDATE playlist_table SET addedTracksId = :newTracksId, addedTracksNumber = :number WHERE playlist_id = :id")
     fun changeTracksList(newTracksId: String, id: Int, number: Int)
 
-
-
 }

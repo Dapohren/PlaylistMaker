@@ -8,6 +8,7 @@ import com.example.playlistmaker.media.domain.db.SharedPrefMediaInteractor
 import com.example.playlistmaker.media.domain.db.playlist.PlaylistInteractor
 import com.example.playlistmaker.media.domain.models.PlaylistModel
 import com.example.playlistmaker.media.presentation.FavouriteStates
+import com.example.playlistmaker.player.presentation.AudioPlayerPlaylistState
 import com.example.playlistmaker.playlist.domain.PlaylistInformationInteractor
 import com.example.playlistmaker.search.domain.models.DataSongs
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +22,7 @@ class PlaylistInformationViewModel(private val interactorInf: PlaylistInformatio
 
     private val _states = MutableLiveData<PlaylistNewStates>()
     val states: LiveData<PlaylistNewStates> = _states
+
 
     fun getPlaylistById(playlistId: Int?){
         viewModelScope.launch{
@@ -71,6 +73,7 @@ class PlaylistInformationViewModel(private val interactorInf: PlaylistInformatio
                 interactorPlay.deletePlaylist(playlistId)
             }
         }
+
     }
     fun readFromSharedPreferences(): ArrayList<DataSongs>{
         return sharedPrefMediaInteractor.readFromSharedPreferences()
