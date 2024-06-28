@@ -1,4 +1,4 @@
-package com.example.playlistmaker.media.domain.db
+package com.example.playlistmaker.media.domain.interfaces
 
 import com.example.playlistmaker.media.domain.models.FavTracksModel
 import com.example.playlistmaker.search.domain.models.DataSongs

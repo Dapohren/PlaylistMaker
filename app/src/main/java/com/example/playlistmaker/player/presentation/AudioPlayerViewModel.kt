@@ -2,21 +2,17 @@ package com.example.playlistmaker.player.presentation
 
 
 import android.media.MediaPlayer
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.playlistmaker.media.domain.db.FavTracksInteractor
-import com.example.playlistmaker.media.domain.db.playlist.PlaylistInteractor
-import com.example.playlistmaker.media.domain.models.FavTracksModel
+import com.example.playlistmaker.media.domain.interfaces.FavTracksInteractor
+import com.example.playlistmaker.media.domain.interfaces.playlist.PlaylistInteractor
 import com.example.playlistmaker.media.domain.models.PlaylistModel
 import com.example.playlistmaker.media.presentation.playlist.PlaylistState
 import com.example.playlistmaker.player.domain.AudioPlayerInteractor
-import com.example.playlistmaker.player.domain.Impl.AudioPlayerInteractorImpl
 import com.example.playlistmaker.player.domain.model.PlayerState
 import com.example.playlistmaker.player.domain.model.States
-import com.example.playlistmaker.playlist.domain.PlaylistInformationInteractor
 import com.example.playlistmaker.search.domain.models.DataSongs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

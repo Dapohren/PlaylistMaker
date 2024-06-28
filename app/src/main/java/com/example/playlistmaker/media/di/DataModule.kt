@@ -6,10 +6,10 @@ import com.example.playlistmaker.media.data.converters.TrackDbConverter
 import com.example.playlistmaker.media.data.db.TrackDatabase
 import com.example.playlistmaker.media.data.impl.FavTracksRepositoryImpl
 import com.example.playlistmaker.media.data.impl.PlaylistRepositoryImpl
-import com.example.playlistmaker.media.domain.db.FavTracksInteractor
-import com.example.playlistmaker.media.domain.db.FavTracksRepository
-import com.example.playlistmaker.media.domain.db.playlist.PlaylistInteractor
-import com.example.playlistmaker.media.domain.db.playlist.PlaylistRepository
+import com.example.playlistmaker.media.domain.interfaces.FavTracksInteractor
+import com.example.playlistmaker.media.domain.interfaces.FavTracksRepository
+import com.example.playlistmaker.media.domain.interfaces.playlist.PlaylistInteractor
+import com.example.playlistmaker.media.domain.interfaces.playlist.PlaylistRepository
 import com.example.playlistmaker.media.domain.impl.FavTracksInteractorImpl
 import com.example.playlistmaker.media.domain.impl.PlaylistInteractorImpl
 import org.koin.android.ext.koin.androidContext

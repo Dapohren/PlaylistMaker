@@ -1,7 +1,7 @@
 package com.example.playlistmaker.media.domain.impl
 
-import com.example.playlistmaker.media.domain.db.playlist.PlaylistInteractor
-import com.example.playlistmaker.media.domain.db.playlist.PlaylistRepository
+import com.example.playlistmaker.media.domain.interfaces.playlist.PlaylistInteractor
+import com.example.playlistmaker.media.domain.interfaces.playlist.PlaylistRepository
 import com.example.playlistmaker.media.domain.models.PlaylistModel
 import com.example.playlistmaker.search.domain.models.DataSongs
 import kotlinx.coroutines.flow.Flow

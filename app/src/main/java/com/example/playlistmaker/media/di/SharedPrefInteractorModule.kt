@@ -1,4 +1,4 @@
-import com.example.playlistmaker.media.domain.db.SharedPrefMediaInteractor
+import com.example.playlistmaker.media.domain.interfaces.SharedPrefMediaInteractor
 import org.koin.dsl.module
 
 val sharedPrefInteractorModule = module {

@@ -1,7 +1,7 @@
 package com.example.playlistmaker.media.domain.impl
 
-import com.example.playlistmaker.media.domain.db.FavTracksInteractor
-import com.example.playlistmaker.media.domain.db.FavTracksRepository
+import com.example.playlistmaker.media.domain.interfaces.FavTracksInteractor
+import com.example.playlistmaker.media.domain.interfaces.FavTracksRepository
 import com.example.playlistmaker.media.domain.models.FavTracksModel
 import com.example.playlistmaker.search.domain.models.DataSongs
 import kotlinx.coroutines.flow.Flow
