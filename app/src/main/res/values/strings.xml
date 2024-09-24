@@ -52,4 +52,23 @@
     <string name="no_media_selected">No media selected</string>
     <string name="need_permission">Для загрузки фото требуется разрешение</string>
     <string name="Newalbum">myalbum</string>
+    <string name="no_tracks_in_playlist">В плейлисте нет треков</string>
+    <string name="delete_track">Хотите удалить трек?</string>
+    <string name="yes">ДА</string>
+    <string name="no">НЕТ</string>
+    <string name="delete_playlist">"Хотите удалить плейлист "</string>
+    <string name="no_tracks">0 минут</string>
+    <string name="no_songs">0 треков</string>
+    <string name="save">Сохранить</string>
+    <string name="playlistname">PlaylistName</string>
+    <string name="_300_example">300</string>
+    <string name="_98_count_tracks_example">98 треков</string>
+    <string name="playlist_photo_example">Фото плейлиста</string>
+    <string name="bottom_sheet_playlistname_example">Best Songs 2021</string>
+    <string name="bottom_sheet_count_example">98 треков</string>
+    <string name="share_text_example">Поделиться</string>
+    <string name="edit_information_text">Редактировать информацию</string>
+    <string name="delete_track_text">Удалить плейлист</string>
+    <string name="description_text_example">2002</string>
+
 </resources>

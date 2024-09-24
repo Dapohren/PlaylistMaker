@@ -4,7 +4,7 @@ import com.example.playlistmaker.media.data.converters.PlaylistDbConverter
 import com.example.playlistmaker.media.data.db.PlaylistEntity
 import com.example.playlistmaker.media.data.db.TrackDatabase
 import com.example.playlistmaker.media.data.db.TracksForPlaylistEntity
-import com.example.playlistmaker.media.domain.db.playlist.PlaylistRepository
+import com.example.playlistmaker.media.domain.interfaces.playlist.PlaylistRepository
 import com.example.playlistmaker.media.domain.models.PlaylistModel
 import com.example.playlistmaker.search.domain.models.DataSongs
 import kotlinx.coroutines.flow.Flow

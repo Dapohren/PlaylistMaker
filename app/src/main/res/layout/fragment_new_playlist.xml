@@ -41,74 +41,69 @@
         android:background="@drawable/round_outline"
         android:src="@drawable/new_playlist_photo"
         />
-    <TextView
-        android:id="@+id/name_active_text"
-        android:layout_width="61dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/playlist_name"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginBottom="48dp"
-        android:textSize="12sp"
-        android:gravity="center"
-        android:textColor="#3772E7"
-        android:fontFamily="@font/ys_display_regular"
-        android:textFontWeight="500"
-        android:text="@string/playlist_name"
-        android:visibility="gone"/>
-    <EditText
-        android:id="@+id/playlist_name"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        app:layout_constraintTop_toBottomOf="@id/new_playlist_photo"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputNameLayout"
+
+        app:boxStrokeWidthFocused="1dp"
+        android:layout_marginHorizontal="18dp"
+        android:textColorHint="?attr/colorOnPrimary"
+        app:boxStrokeColor="@color/new_playlist_frame_selector"
+        app:hintTextColor="@color/new_playlist_frame_selector"
         android:layout_marginTop="32dp"
-        android:layout_marginHorizontal="16dp"
-        android:padding="8dp"
-        android:layout_gravity="center"
-        android:textSize="@dimen/text_size_settings_button"
-        android:fontFamily="@font/ys_display_regular"
-        android:textColor="?attr/colorOnPrimary"
-        android:textColorHint="?attr/colorOnPrimary"
-        android:textFontWeight="400"
-        android:hint="@string/playlist_name"
-        android:background="@drawable/new_playlist_frame_selector"/>
-    <TextView
-        android:id="@+id/active_description"
-        android:layout_width="61dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/playlist_description"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginBottom="48dp"
-        android:textSize="12sp"
-        android:gravity="center"
-        android:textColor="#3772E7"
-        android:fontFamily="@font/ys_display_regular"
-        android:textFontWeight="500"
-        android:text="@string/playlist_description"
-        android:visibility="gone"/>
-    <EditText
-        android:id="@+id/playlist_description"
-        android:layout_width="match_parent"
+        android:tag="inputNameLayout"
+        app:layout_constraintTop_toBottomOf="@id/new_playlist_photo"
         android:layout_height="56dp"
-        app:layout_constraintTop_toBottomOf="@id/playlist_name"
-        android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="16dp"
-        android:padding="8dp"
-        android:layout_gravity="center"
-        android:textSize="@dimen/text_size_settings_button"
-        android:fontFamily="@font/ys_display_regular"
-        android:textColor="?attr/colorOnPrimary"
+        android:layout_width="match_parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/playlistName"
+            android:textSize="@dimen/text_size_settings_button"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:inputType="text"
+            android:defaultFocusHighlightEnabled="false"
+            android:lines="1"
+            android:singleLine="true"
+            android:fontFamily="@font/ys_display_regular"
+            android:hint="@string/playlist_name" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputDescriptionLayout"
+        app:boxStrokeWidthFocused="1dp"
+        android:layout_marginHorizontal="18dp"
         android:textColorHint="?attr/colorOnPrimary"
-        android:textFontWeight="400"
-        android:hint="@string/playlist_description"
-        android:background="@drawable/new_playlist_frame_selector"/>
+        app:boxStrokeColor="@color/new_playlist_frame_selector"
+        app:hintTextColor="@color/new_playlist_frame_selector"
+        android:layout_marginTop="10dp"
+        android:tag="inputDescriptionLayout"
+        app:layout_constraintTop_toBottomOf="@id/inputNameLayout"
+        android:layout_height="56dp"
+        android:layout_width="match_parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/playlistDescription"
+            android:textSize="@dimen/text_size_settings_button"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:inputType="text"
+            android:defaultFocusHighlightEnabled="false"
+            android:lines="1"
+            android:singleLine="true"
+            android:fontFamily="@font/ys_display_regular"
+            android:hint="@string/playlist_description" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/bottomBorder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_end="60dp" />
+
+
     <TextView
         android:id="@+id/button_create"
         android:layout_width="match_parent"

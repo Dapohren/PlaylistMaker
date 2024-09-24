@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val SONGS_PREFERENCES = "songs_preferences"
-private const val CLICK_DEBOUNCE_DELAY = 1000L
+const val CLICK_DEBOUNCE_DELAY = 1000L
 private const val SEARCH_DEBOUNCE_DELAY = 2000L
 const val CHOSEN_TRACK = "chosen_track"
 const val SONGS_LIST_KEY = "songs_list_key"
